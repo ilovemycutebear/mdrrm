@@ -1,0 +1,33 @@
+<!--*********TABS**************-->
+            <ul class="nav nav-tabs" id="myTab">
+        <li class="active"><a data-target="#table" data-toggle="tab">Table</a></li>
+        <li><a data-target="#chart" data-toggle="tab">Chart</a></li>
+
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="table">
+       <!--*********TABLES**************-->
+        <table class="table table-bordered" id="users-table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Date/Time</th>
+                <th>Rain</th>
+            </tr>
+        </thead>
+       </table>
+        <!--*********TABLES**************-->
+        </div>
+        <div class="tab-pane" id="chart">
+        <!--*********CHARTS**************-->
+        <div id="dashboard">
+         <div id="chart_div"></div>
+       <div id="control_div"></div>
+        <p><span id='dbgchart'></span></p>
+        <!--*********CHARTS**************-->
+        </div>
+        </div>
+      </div>
+<!--*********TABS**************-->
