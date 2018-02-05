@@ -11,7 +11,7 @@
     <div class="col-lg-7">
      <!--#################################################DIVIDER######################################################################-->
 <div id='legend' style='display:none;'>
-  <img src="{{URL::asset('img/legendary.png')}}"/>
+  <img src="{{URL::asset('img/wlegends.png')}}"/>
 </div>
 <div id='map-cluster' class='map'></div>
 <div id="modalcontainer">
@@ -24,7 +24,7 @@
         <!--*********TABS**************-->
         <ul class="nav nav-tabs" id="myTab">
         <li class="active"><a data-target="#table" data-toggle="tab">Table</a></li>
-        <li><a data-target="#chart" data-toggle="tab">Graph(RAIN)</a></li>
+        <li><a data-target="#chart" data-toggle="tab">Graph(WATER LEVEL)</a></li>
         <li><a data-target="#wlchart" data-toggle="tab">Graph(WATER LEVEL)</a></li>
 
       </ul>
@@ -88,24 +88,38 @@
 
 <!--#################################################DIVIDER######################################################################-->
  <!--*********TABLES**************-->
-       <div id="table_latest" class="alert-info text-center"><h4>LATEST DATA(RAIN)</h4></div>
+       <div id="table_latest" class="alert-info text-center"><h4>LATEST DATA (WATER LEVEL)</h4></div>
         <table class="table table-bordered" id="latest-table">
         <thead>
             <tr class="bg-primary">
                 <th>SITE NAME</th>
-                <th>DATE/TIME</th>
-                <th>RAIN<br>10 MN</th>
+                <th>CREATED AT</th>
+                <th>WL</th>
             </tr>
         </thead>
        </table>
         <!--*********TABLES**************-->
        <!--*********TABLES**************-->
-       <div id="table_latest" class="alert-info text-center"><h4>DAILY DATA(RAIN)</h4></div>
+       <div id="table_latest" class="alert-info text-center"><h4>HOURLY DATA (WATER LEVEL)</h4></div>
         <table class="table table-bordered" id="hourly-table">
         <thead>
             <tr class="bg-primary">
                 <th>SITE NAME</th>
-                <th>RAIN<br>24 HRS</th>
+                <th>DATE/TIME</th>
+                <th>LEVEL<br>1 HR</th>
+            </tr>
+        </thead>
+       </table>
+        <!--*********TABLES**************-->
+         <!--*********TABLES**************-->
+       <div id="table_latest" class="alert-info text-center"><h4>WARNINGS</h4></div>
+        <table class="table table-bordered" id="table-warning">
+        <thead>
+            <tr class="bg-primary">
+                <th>SITE NAME</th>
+                <th>ALERT</th>
+                <th>ALARM</th>
+                <th>CRITICAL</th>
             </tr>
         </thead>
        </table>
@@ -127,7 +141,7 @@ var mapCluster = L.mapbox.map('map-cluster')
      function loadmarkers(){
       var ler = '012345';
 L.mapbox.featureLayer()
-  .loadURL('{{URL::asset('map')}}')
+  .loadURL('{{URL::asset('wlmap')}}')
     .on('click', function(e) {
        //console.log(e.layer.feature.properties.description.site_id);
       clckr = e.layer.feature.properties.description.site_id;
@@ -136,6 +150,7 @@ L.mapbox.featureLayer()
         calltable();
         drawChart();
         drawWlChart();
+
         $('#myModal').modal('show');
 
        
@@ -147,116 +162,58 @@ L.mapbox.featureLayer()
 //
    
     //var blgrndrp = new L.Icon({iconUrl: "{{URL::asset('img/marker/0119.png')}}"});
-    var blgrndrp = L.Icon.extend({
+    var icnalarm = L.Icon.extend({
     options: {
-        iconUrl:  "{{URL::asset('img/marker/0119.png')}}",
+        iconUrl:  "{{URL::asset('img/marker/alarm.png')}}",
         iconSize: [20,25],
         iconAnchor: [5, 20], // horizontal puis vertical
     }
     });
-        var rddrp = L.Icon.extend({
+        var icnalert = L.Icon.extend({
     options: {
-        iconUrl:  "{{URL::asset('img/marker/5h5h9.png')}}",
+        iconUrl:  "{{URL::asset('img/marker/alert.png')}}",
         iconSize: [20,25],
         iconAnchor: [5, 20], // horizontal puis vertical
     }
     });
-    var bldrp = L.Icon.extend({
+    var icncritical = L.Icon.extend({
     options: {
-        iconUrl:  "{{URL::asset('img/marker/1h1h9.png')}}",
+        iconUrl:  "{{URL::asset('img/marker/critical.png')}}",
         iconSize: [20,25],
         iconAnchor: [5, 20], // horizontal puis vertical
     }
     });
-   var vltdrp = L.Icon.extend({
+   var icndatadown = L.Icon.extend({
     options: {
-        iconUrl:  "{{URL::asset('img/marker/2h2h9.png')}}",
+        iconUrl:  "{{URL::asset('img/marker/datadown.png')}}",
         iconSize: [20,25],
         iconAnchor: [5, 20], // horizontal puis vertical
     }
     });
-   var ylwdrp = L.Icon.extend({
+   var icndatanc = L.Icon.extend({
     options: {
-        iconUrl:  "{{URL::asset('img/marker/3h3h9.png')}}",
+        iconUrl:  "{{URL::asset('img/marker/datanc.png')}}",
         iconSize: [20,25],
         iconAnchor: [5, 20], // horizontal puis vertical
     }
     });
-    var orngdrp = L.Icon.extend({
+    var icndataup = L.Icon.extend({
     options: {
-        iconUrl:  "{{URL::asset('img/marker/4h4h9.png')}}",
+        iconUrl:  "{{URL::asset('img/marker/dataup.png')}}",
         iconSize: [20,25],
         iconAnchor: [5, 20], // horizontal puis vertical
     }
     });
-   var skbldrp = L.Icon.extend({
+   var icnodata = L.Icon.extend({
     options: {
-        iconUrl:  "{{URL::asset('img/marker/2099.png')}}",
+        iconUrl:  "{{URL::asset('img/marker/nodata.png')}}",
         iconSize: [20,25],
         iconAnchor: [5, 20], // horizontal puis vertical
     }
     });
-var grydrp = L.Icon.extend({
+var icnormal = L.Icon.extend({
     options: {
-        iconUrl:  "{{URL::asset('img/marker/norf.png')}}",
-        iconSize: [20,25],
-        iconAnchor: [5, 20], // horizontal puis vertical
-    }
-    });
-// VOLUMES
-
- var blgrndrpv = L.Icon.extend({
-    options: {
-        iconUrl:  "{{URL::asset('img/marker/0119v.png')}}",
-        iconSize: [20,25],
-        iconAnchor: [5, 20], // horizontal puis vertical
-    }
-    });
-        var rddrpv = L.Icon.extend({
-    options: {
-        iconUrl:  "{{URL::asset('img/marker/5h5h9v.png')}}",
-        iconSize: [20,25],
-        iconAnchor: [5, 20], // horizontal puis vertical
-    }
-    });
-    var bldrpv = L.Icon.extend({
-    options: {
-        iconUrl:  "{{URL::asset('img/marker/1h1h9v.png')}}",
-        iconSize: [20,25],
-        iconAnchor: [5, 20], // horizontal puis vertical
-    }
-    });
-   var vltdrpv = L.Icon.extend({
-    options: {
-        iconUrl:  "{{URL::asset('img/marker/2h2h9v.png')}}",
-        iconSize: [20,25],
-        iconAnchor: [5, 20], // horizontal puis vertical
-    }
-    });
-   var ylwdrpv = L.Icon.extend({
-    options: {
-        iconUrl:  "{{URL::asset('img/marker/3h3h9v.png')}}",
-        iconSize: [20,25],
-        iconAnchor: [5, 20], // horizontal puis vertical
-    }
-    });
-    var orngdrpv = L.Icon.extend({
-    options: {
-        iconUrl:  "{{URL::asset('img/marker/4h4h9v.png')}}",
-        iconSize: [20,25],
-        iconAnchor: [5, 20], // horizontal puis vertical
-    }
-    });
-   var skbldrpv = L.Icon.extend({
-    options: {
-        iconUrl:  "{{URL::asset('img/marker/2099v.png')}}",
-        iconSize: [20,25],
-        iconAnchor: [5, 20], // horizontal puis vertical
-    }
-    });
-var grydrpv = L.Icon.extend({
-    options: {
-        iconUrl:  "{{URL::asset('img/marker/norfv.png')}}",
+        iconUrl:  "{{URL::asset('img/marker/normal.png')}}",
         iconSize: [20,25],
         iconAnchor: [5, 20], // horizontal puis vertical
     }
@@ -266,47 +223,80 @@ var grydrpv = L.Icon.extend({
     e.target.eachLayer(function(layer) {
         clusterGroup.addLayer(layer);
 
-        var rf = parseFloat(layer.feature.properties.description.rainfall);
-        if(layer.feature.properties.description.dataof=="daily"){
-          if(rf <= 0){
-        layer.setIcon(new grydrpv);
+        var sitenm = layer.feature.properties.description.Sitename;
+        var wl = parseFloat(layer.feature.properties.description.wlevel);
+
+        if(sitenm=="DOLORES"){
+
+          if(wl == 56.90){
+        layer.setIcon(new icnalarm);
 
         }
-         else if((rf >= 1)&&(rf <= 24)){
-        layer.setIcon(new blgrndrpv);
+         else if(wl == 54.48){
+        layer.setIcon(new icnalert);
 
         }
-        else if((rf >= 25)&&(rf <= 49)){
-        layer.setIcon(new skbldrpv);
+        else if(wl == 56.90){
+        layer.setIcon(new icncritical);
 
         }    
-        else if((rf >= 50)&&(rf <= 74)){
-        layer.setIcon(new bldrpv);
+        else if((wl >= 10.0)&&(wl <= 19.9)){
+        layer.setIcon(new icndatanc);
 
         }       
-        else if((rf >= 75)&&(rf <= 99)){
-        layer.setIcon(new vltdrpv);
+        else if((wl >= 20.0)&&(wl <= 29.9)){
+        layer.setIcon(new icndataup);
 
         }      
-        else if((rf >= 100)&&(rf <= 124)){
-        layer.setIcon(new ylwdrpv);
+        else if((wl >= 30.0)&&(wl <= 39.9)){
+        layer.setIcon(new icndatadown);
 
         } 
-        else if((rf >= 125)&&(rf <= 149)){
-        layer.setIcon(new orngdrpv);
+        else if((wl >= 40.0)&&(wl <= 49.9)){
+        layer.setIcon(new icnodata);
 
         }
-        else if(rf >= 150){
-        layer.setIcon(new rddrpv);
-
-
+        else if(wl < 54.48){
+        layer.setIcon(new icnormal);
 
         }
 
-      }
-        else{
-        console.log("RF: "+ rf);
-        if(rf <= 0){
+        }
+        if(sitenm=="LA PAZ"){
+            if(wl < 50.17){
+        layer.setIcon(new icnormal);
+
+        }
+          
+        }
+        if(sitenm=="VIGAN"){
+          
+             if(wl < 12.15){
+        layer.setIcon(new icnormal);
+
+        }
+        }
+        if(sitenm=="BANTAY"){
+          var numnrm = -1.17;
+          console.log(parseFloat(numnrm));
+          if(wl < parseFloat(numnrm)){
+        layer.setIcon(new icnormal);
+
+        }
+        else if((wl >= parseFloat(numnrm))&&(wl <= 3.76)){
+        layer.setIcon(new icnalert);
+
+        }
+          
+        }
+        if(sitenm=="QUIRINO(B)"){
+          if(wl < 278.53){
+        layer.setIcon(new icnormal);
+
+        }
+          
+        }
+       /* if(rf <= 0){
         layer.setIcon(new grydrp);
 
         }
@@ -337,12 +327,11 @@ var grydrpv = L.Icon.extend({
         else if(rf >= 50.0){
         layer.setIcon(new rddrp);
 
-        }
+        }*/
+
+
         layer.bindTooltip(layer.feature.properties.description.Sitename,{ direction:'left', permanent: true, opacity : 0.6, offset : L.point(10,10), className: 'myCSSClass' });
         layer.bindPopup("<h1>"+layer.feature.properties.description.Sitename+ "</h1><h2><small> Rainfall: "+layer.feature.properties.description.rainfall+"</small></h2><h2><small> As Of: "+layer.feature.properties.description.asof+"</small></h2>");
-      }
-
-        
   });
   $.getJSON("{{URL::asset('geojson/abrafews.geojson')}}", function(data) { 
   
@@ -366,8 +355,10 @@ setInterval(function(){
     loadmarkers();
      $('#latest-table').DataTable().destroy();
      $('#hourly-table').DataTable().destroy();
+     $('#table-warning').DataTable().destroy();
     drawlatestable();
     drawhourlytable();
+    warningtable();
   }, 6000);
 
 function calltable(){
@@ -385,6 +376,22 @@ function calltable(){
         ]
     });
 }
+function warningtable(){
+    $('#table-warning').DataTable({
+        destroy: true,
+        processing: true,
+        serverSide: true,
+        searching: false,
+        paging: false,
+        ajax: '{{URL::asset('editalerts')}}',
+        columns: [
+            { data: 'name', name: 'name' },
+            { data: 'wlalert', name: 'wlalert' },
+             { data: 'wlalarm', name: 'wlalarm' },
+              { data: 'wlcritical', name: 'wlcritical' }
+        ]
+    });
+}
 function drawhourlytable(){
 
     $('#hourly-table').DataTable({
@@ -393,24 +400,27 @@ function drawhourlytable(){
         serverSide: true,
         searching: false,
         paging: false,
-        ajax: '{{URL::asset('hourlydata')}}',
+        ajax: '{{URL::asset('wlhourlydata')}}',
         columns: [
             { data: 'name', name: 'name' },
-            { data: 'rain', name: 'rain' }
+            { data: 'created_at', name: 'created_at' },
+            { data: 'water', name: 'water' }
         ]
     });
 }
 function drawlatestable(){
+
     $('#latest-table').DataTable({
          searching: false,
          paging: false,
-        "ajax": "{{URL::asset('latestdata')}}",
+        "ajax": "{{URL::asset('wllatestdata')}}",
         "columns": [
-            { "data": 'Site', "name": 'name' },
-            { "data": 'asof', "name": 'datetime' },
-            { "data": 'rainten', "name": 'rvalue' },
+            { "data": 'Site', "name": 'Site' },
+            { "data": 'asof', "name": 'asof' },
+            { "data": 'water', "name": 'water' },
 
-        ]
+
+       ],        
     });
 }
 //google.load('visualization', '1', {packages: ['controls', 'charteditor']});

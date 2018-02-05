@@ -167,7 +167,7 @@ return [
         /*
          * Package Service Providers...
          */
-
+        FarhanWazir\GoogleMaps\GMapsServiceProvider::class,
         //
 
         /*
@@ -228,6 +228,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Datatables' => Yajra\Datatables\Facades\Datatables::class,
+        'GMaps' => FarhanWazir\GoogleMaps\Facades\GMapsFacade::class,
 
 
     ],
