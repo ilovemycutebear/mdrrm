@@ -179,7 +179,7 @@ class MapsController extends Controller
 
         //$siteinfo = site::all();
 
-        $query= DB::select("SELECT site.name as Site,site.sitelat as lattitude ,site.sitelong as longtitude,logs.wlevel as water,logs.created_at as asof, logs.site_id as siteid FROM site INNER JOIN logs on site.id=logs.site_id WHERE logs.cnt IN (SELECT MAX(cnt) FROM logs GROUP BY site_id) AND (site.sensortype = 1 OR site.sensortype = 3)");
+        $query= DB::select("SELECT site.name as Site,site.sitelat as lattitude ,site.sitelong as longtitude,site.wltbm as tbm,site.wly as ylevel,site.wlalert as wlalert,site.wlalarm as wlalarm,site.wlcritical as wlcritical,logs.wlevel as water,logs.created_at as asof, logs.site_id as siteid FROM site INNER JOIN logs on site.id=logs.site_id WHERE logs.cnt IN (SELECT MAX(cnt) FROM logs GROUP BY site_id) AND (site.sensortype = 1 OR site.sensortype = 3)");
 
         /*$results = DB::table('site')
             ->join('logs', 'site.id', '=', 'logs.site_id')
@@ -209,7 +209,7 @@ class MapsController extends Controller
         $date = new DateTime();
         //$date->modify('-24 hours');
         $formatted_date = Carbon::now()->subDays(1);
-        $visitCount = DB::table('logs')->join('site', 'site.id', '=', 'logs.site_id')->select(DB::raw("SUM(wlevel) as dlwater"),'logs.site_id','logs.created_at','site.name','site.sensortype','site.sitelong','site.sitelat')->where('logs.created_at', '>',$formatted_date)
+        $visitCount = DB::table('logs')->join('site', 'site.id', '=', 'logs.site_id')->select(DB::raw("SUM(wlevel) as dlwater"),'logs.site_id','logs.created_at','site.name','site.sensortype','site.sitelong','site.sitelat','site.wlalert','site.wlalarm','site.wlcritical')->where('logs.created_at', '>',$formatted_date)
         ->where(function ($query) {
         $query->where('site.sensortype','=',1)
         ->orWhere('site.sensortype','=',3);
@@ -241,6 +241,11 @@ class MapsController extends Controller
                                                             "description"=> array(
                                                                 "Sitename"=>$queries->Site,
                                                                 "wlevel" => (float)$queries->water,
+                                                                "wlalert" => (float)$queries->wlalert,
+                                                                "wlalarm" => (float)$queries->wlalarm,
+                                                                "wlcritical" => (float)$queries->wlcritical,
+                                                                "tbm" => (float)$queries->tbm,
+                                                                "ylevel" => (float)$queries->ylevel,
                                                                 "asof" => $queries->asof,
                                                                 "site_id" => $queries -> siteid
                                                                         )

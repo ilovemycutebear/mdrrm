@@ -16,7 +16,7 @@ class ChartController extends Controller
     	$lava = new Lavacharts;
 
     	$charth = $lava->DataTable();
-    	$data = logs::select('datetime_10mins as 0','rain10 as 1')
+    	$data = logs::select('created_at as 0','rvalue as 1')
     	->where('site_id',$chartid)
         ->take(10010)
     	->get()->toArray();
@@ -41,9 +41,10 @@ class ChartController extends Controller
       $lava = new Lavacharts;
 
       $wlcharth = $lava->DataTable();
-      $data = logs::select('datetime_10mins as 0','data_10mins as 1')
+      $data = logs::join('site', 'site.id', '=', 'logs.site_id')
+      ->select(DB::raw('logs.created_at as "0",(site.wltbm-site.wly)+logs.wlevel as "1"'))
       ->where('site_id',$chartid)
-        ->take(10010)
+     ->take(10010)
       ->get()->toArray();
 
            // $users = str_replace('{', '[', $users);

@@ -13,6 +13,7 @@ use Yajra\Datatables\Datatables;
 
 class DatatablesController extends Controller
 {
+ 
    
     public function index()
     {
@@ -40,7 +41,7 @@ class DatatablesController extends Controller
 
     		$users = DB::table('site')
             ->join('logs', 'site.id', '=', 'logs.site_id')
-            ->select('site.name','logs.radiodate','logs.radiotime','logs.batteryvolt','logs.wlevel','logs.rvalue')
+            ->select('site.name','logs.radiodate','logs.radiotime','logs.batteryvolt','(site.wltbm-site.wly)+logs.wlevel','logs.rvalue')
            
             ->get();
 
@@ -55,10 +56,9 @@ class DatatablesController extends Controller
         protected function datafl($siteid){
             $users = DB::table('site')
             ->join('logs', 'site.id', '=', 'logs.site_id')
-            ->select('site.name','logs.radiodate','logs.radiotime','logs.batteryvolt','logs.wlevel','logs.rvalue')
+            ->select(DB::raw('(site.wltbm-site.wly)+logs.wlevel as wlevel,site.name,logs.radiodate,logs.radiotime,logs.batteryvolt,logs.rvalue'))
             ->where('logs.site_id',$siteid)
             ->get();
-
             return  Datatables::of($users)->editColumn('rvalue', function($user){
                 if($user->rvalue > 0){
                     return "<div class='alert-success text-center'>".$user->rvalue."</div>";
@@ -66,10 +66,13 @@ class DatatablesController extends Controller
                 elseif($user->rvalue <= 0){
                     return "<div class='alert-info text-center'>".$user->rvalue."</div>";
                 };
+            })->editColumn('wlevel', function($water){
+                
+                    return "<div class='alert-info text-center'>".$water->wlevel."</div>";
             })
             ->make(true); 
             
-            
+        
         }
         public function editalerts(){
 
@@ -79,20 +82,30 @@ class DatatablesController extends Controller
 
 
               $users = DB::table('site')
-            ->select(['name', 'sitelat', 'sitelong', 'sitelev', 'wlalert', 'wlalarm','wlcritical'])->where(function ($query) {
+            ->select(['id','name', 'sitelat', 'sitelong', 'sitelev', 'wlalert', 'wlalarm','wlcritical','wltbm','wly'])->where(function ($query) {
         $query->where('sensortype','=',1)
         ->orWhere('sensortype','=',3);
         })->get();
 
    
 
-            return Datatables::of($users)->editColumn('wlalert', function($user){
-                    return "<div class='alert-success text-center'>".$user->wlalert."</div>";
-            })->editColumn('wlalarm', function($user){
-                    return "<div class='alert-warning text-center'>".$user->wlalarm."</div>";
-            })->editColumn('wlcritical', function($user){
-                    return "<div class='alert-danger text-center'>".$user->wlcritical."</div>";
-            })
+            return Datatables::of($users)
             ->make(true);  
+        }
+        public function updatealerts(Request $request){
+
+
+    $article = site::find($request -> siteid);
+   $article->name = $request->sitename;
+   $article->sitelat = $request->sitelat;
+   $article->sitelong = $request->sitelong;
+   $article->wlalert = $request->wlalert;
+   $article->wlalarm = $request->wlalarm;
+   $article->wlcritical = $request->wlcritical;
+   $article->wltbm = $request->wltbm;
+    $article->wly = $request->wly;
+   $article->save();
+   return back();
+
         }
 }

@@ -252,7 +252,7 @@
          for( var i = 0; i < dt.context[0].aoColumns.length; i++ )
          {
             columnDefs.push({ title: dt.context[0].aoColumns[i].sTitle })
-            console.log (dt.context[0].aoColumns[i].name);
+            console.log (dt.context[0].aoColumns[i].data.name);
          }
 
           var adata = dt.rows({

@@ -52,6 +52,9 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
+            <li class="{{ Request::is('/') ? 'active' : '' }}">
+                <a href="{{ url('/') }}">HOME</a>
+            </li>
             <li class="{{ Request::is('rainmapview') ? 'active' : '' }}">
                 <a href="{{ url('rainmapview') }}">RAIN</a>
             </li>

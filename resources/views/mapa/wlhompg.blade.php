@@ -24,7 +24,6 @@
         <!--*********TABS**************-->
         <ul class="nav nav-tabs" id="myTab">
         <li class="active"><a data-target="#table" data-toggle="tab">Table</a></li>
-        <li><a data-target="#chart" data-toggle="tab">Graph(WATER LEVEL)</a></li>
         <li><a data-target="#wlchart" data-toggle="tab">Graph(WATER LEVEL)</a></li>
 
       </ul>
@@ -36,10 +35,11 @@
         <table class="table table-bordered" id="users-table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Date/Time</th>
-                <th>Rain</th>
+                <th>NAME</th>
+                <th>DATE</th>
+                <th>TIME</th>
+                <th>BATTERY</th>
+                <th>WATER LEVEL</th>
             </tr>
         </thead>
        </table>
@@ -148,7 +148,7 @@ L.mapbox.featureLayer()
       console.log(clckr);
         mapCluster.panTo(e.layer.getLatLng());
         calltable();
-        drawChart();
+       // drawChart();
         drawWlChart();
 
         $('#myModal').modal('show');
@@ -165,56 +165,56 @@ L.mapbox.featureLayer()
     var icnalarm = L.Icon.extend({
     options: {
         iconUrl:  "{{URL::asset('img/marker/alarm.png')}}",
-        iconSize: [20,25],
+        iconSize: [25,25],
         iconAnchor: [5, 20], // horizontal puis vertical
     }
     });
         var icnalert = L.Icon.extend({
     options: {
         iconUrl:  "{{URL::asset('img/marker/alert.png')}}",
-        iconSize: [20,25],
+        iconSize: [25,25],
         iconAnchor: [5, 20], // horizontal puis vertical
     }
     });
     var icncritical = L.Icon.extend({
     options: {
         iconUrl:  "{{URL::asset('img/marker/critical.png')}}",
-        iconSize: [20,25],
+        iconSize: [25,25],
         iconAnchor: [5, 20], // horizontal puis vertical
     }
     });
    var icndatadown = L.Icon.extend({
     options: {
         iconUrl:  "{{URL::asset('img/marker/datadown.png')}}",
-        iconSize: [20,25],
+        iconSize: [25,25],
         iconAnchor: [5, 20], // horizontal puis vertical
     }
     });
    var icndatanc = L.Icon.extend({
     options: {
         iconUrl:  "{{URL::asset('img/marker/datanc.png')}}",
-        iconSize: [20,25],
+        iconSize: [25,25],
         iconAnchor: [5, 20], // horizontal puis vertical
     }
     });
     var icndataup = L.Icon.extend({
     options: {
         iconUrl:  "{{URL::asset('img/marker/dataup.png')}}",
-        iconSize: [20,25],
+        iconSize: [25,25],
         iconAnchor: [5, 20], // horizontal puis vertical
     }
     });
    var icnodata = L.Icon.extend({
     options: {
         iconUrl:  "{{URL::asset('img/marker/nodata.png')}}",
-        iconSize: [20,25],
+        iconSize: [25,25],
         iconAnchor: [5, 20], // horizontal puis vertical
     }
     });
 var icnormal = L.Icon.extend({
     options: {
         iconUrl:  "{{URL::asset('img/marker/normal.png')}}",
-        iconSize: [20,25],
+        iconSize: [25,25],
         iconAnchor: [5, 20], // horizontal puis vertical
     }
     });
@@ -224,77 +224,113 @@ var icnormal = L.Icon.extend({
         clusterGroup.addLayer(layer);
 
         var sitenm = layer.feature.properties.description.Sitename;
-        var wl = parseFloat(layer.feature.properties.description.wlevel);
+        var wla = parseFloat(layer.feature.properties.description.wlevel);
+        var wlb =parseFloat(layer.feature.properties.description.tbm);
+        var wlc =parseFloat(layer.feature.properties.description.ylevel);
 
+
+        var wl  = (wlb-wlc)+wla;
         if(sitenm=="DOLORES"){
-
-          if(wl == 56.90){
+          console.log("dolores WL:"+ sitenm);
+          if((wl >= parseFloat(layer.feature.properties.description.wlalarm))&&(wl <= parseFloat(layer.feature.properties.description.wlcritical))){
         layer.setIcon(new icnalarm);
 
         }
-         else if(wl == 54.48){
+         else if((wl >= parseFloat(layer.feature.properties.description.wlalert))&&(wl <= layer.feature.properties.description.wlalarm)){
+
         layer.setIcon(new icnalert);
 
         }
-        else if(wl == 56.90){
+        else if(wl >= parseFloat(layer.feature.properties.description.wlcritical)){
         layer.setIcon(new icncritical);
 
         }    
-        else if((wl >= 10.0)&&(wl <= 19.9)){
-        layer.setIcon(new icndatanc);
-
-        }       
-        else if((wl >= 20.0)&&(wl <= 29.9)){
-        layer.setIcon(new icndataup);
-
-        }      
-        else if((wl >= 30.0)&&(wl <= 39.9)){
-        layer.setIcon(new icndatadown);
-
-        } 
-        else if((wl >= 40.0)&&(wl <= 49.9)){
-        layer.setIcon(new icnodata);
-
-        }
-        else if(wl < 54.48){
+        else if(wl < parseFloat(layer.feature.properties.description.wlalarm)){
         layer.setIcon(new icnormal);
 
         }
 
         }
         if(sitenm=="LA PAZ"){
-            if(wl < 50.17){
+          console.log("la paz WL:"+ sitenm);
+          if((wl >= parseFloat(layer.feature.properties.description.wlalarm))&&(wl <= parseFloat(layer.feature.properties.description.wlcritical))){
+        layer.setIcon(new icnalarm);
+
+        }
+         else if((wl >= parseFloat(layer.feature.properties.description.wlalert))&&(wl <= layer.feature.properties.description.wlalarm)){
+
+        layer.setIcon(new icnalert);
+
+        }
+        else if(wl >= parseFloat(layer.feature.properties.description.wlcritical)){
+        layer.setIcon(new icncritical);
+
+        }    
+        else if(wl < parseFloat(layer.feature.properties.description.wlalarm)){
         layer.setIcon(new icnormal);
 
         }
           
         }
         if(sitenm=="VIGAN"){
-          
-             if(wl < 12.15){
+          console.log("vigan WL:"+ sitenm);
+          if((wl >= parseFloat(layer.feature.properties.description.wlalarm))&&(wl <= parseFloat(layer.feature.properties.description.wlcritical))){
+        layer.setIcon(new icnalarm);
+
+        }
+         else if((wl >= parseFloat(layer.feature.properties.description.wlalert))&&(wl <= layer.feature.properties.description.wlalarm)){
+
+        layer.setIcon(new icnalert);
+
+        }
+        else if(wl >= parseFloat(layer.feature.properties.description.wlcritical)){
+        layer.setIcon(new icncritical);
+
+        }    
+        else if(wl < parseFloat(layer.feature.properties.description.wlalarm)){
         layer.setIcon(new icnormal);
 
         }
         }
         if(sitenm=="BANTAY"){
-          var numnrm = -1.17;
-          console.log(parseFloat(numnrm));
-          if(wl < parseFloat(numnrm)){
-        layer.setIcon(new icnormal);
+          console.log("bantay WL:"+ sitenm);
+          if((wl >= parseFloat(layer.feature.properties.description.wlalarm))&&(wl <= parseFloat(layer.feature.properties.description.wlcritical))){
+        layer.setIcon(new icnalarm);
 
         }
-        else if((wl >= parseFloat(numnrm))&&(wl <= 3.76)){
+         else if((wl >= parseFloat(layer.feature.properties.description.wlalert))&&(wl <= layer.feature.properties.description.wlalarm)){
+
         layer.setIcon(new icnalert);
 
         }
-          
+        else if(wl >= parseFloat(layer.feature.properties.description.wlcritical)){
+        layer.setIcon(new icncritical);
+
+        }    
+        else if(wl < parseFloat(layer.feature.properties.description.wlalarm)){
+        layer.setIcon(new icnormal);
+
+        }  
         }
         if(sitenm=="QUIRINO(B)"){
-          if(wl < 278.53){
+          console.log("quirinob WL:"+ sitenm);
+          if((wl >= parseFloat(layer.feature.properties.description.wlalarm))&&(wl <= parseFloat(layer.feature.properties.description.wlcritical))){
+        layer.setIcon(new icnalarm);
+
+        }
+         else if((wl >= parseFloat(layer.feature.properties.description.wlalert))&&(wl <= layer.feature.properties.description.wlalarm)){
+
+        layer.setIcon(new icnalert);
+
+        }
+        else if(wl >= parseFloat(layer.feature.properties.description.wlcritical)){
+        layer.setIcon(new icncritical);
+
+        }    
+        else if(wl < parseFloat(layer.feature.properties.description.wlalarm)){
         layer.setIcon(new icnormal);
 
         }
-          
         }
        /* if(rf <= 0){
         layer.setIcon(new grydrp);
@@ -349,17 +385,16 @@ var icnormal = L.Icon.extend({
 }//loadmarkers
 loadmarkers();
 drawlatestable();
+warningtable();
 setInterval(function(){
     clusterGroup.clearLayers();
     console.log("refreshing data");
     loadmarkers();
      $('#latest-table').DataTable().destroy();
      $('#hourly-table').DataTable().destroy();
-     $('#table-warning').DataTable().destroy();
     drawlatestable();
     drawhourlytable();
-    warningtable();
-  }, 6000);
+  }, 60000);
 
 function calltable(){
 
@@ -369,10 +404,11 @@ function calltable(){
         serverSide: true,
         ajax: '{{URL::asset('data')}}'+"/"+clckr,
         columns: [
-            { data: 'site_id', name: 'site_id' },
             { data: 'name', name: 'name' },
-            { data: 'datetime_10mins', name: 'datetime_10mins' },
-            { data: 'rain10', name: 'rain10' }
+            { data: 'radiodate', name: 'radiodate' },
+            { data: 'radiotime', name: 'radiotime' },
+            { data: 'batteryvolt', name: 'batteryvolt' },
+            { data: 'wlevel', name: 'wlevel' }
         ]
     });
 }
@@ -427,7 +463,7 @@ function drawlatestable(){
 google.charts.load('current', {'packages':['corechart', 'controls']});
 //google.setOnLoadCallback(drawChart);
 
-function drawChart() {
+/*function drawChart() {
   var jsonData = $.ajax({
           url:  '{{URL::asset('laracharts')}}'+"/"+clckr,
           dataType: "json",
@@ -477,7 +513,7 @@ function drawChart() {
         document.getElementById('dbgchart').innerHTML = '<b>START: </b>'+v.range.start+ '<br /><b>END: </b> ' +v.range.end;
         return 0;
     });
-}
+}*/
 function drawWlChart() {
   var jsonData = $.ajax({
           url:  '{{URL::asset('wlaracharts')}}'+"/"+clckr,

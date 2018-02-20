@@ -19,7 +19,7 @@ class LatestController extends Controller
 {
     //
     public function wlgetlatestdata(){
-		$result = DB::select("SELECT site.name as Site,site.sitelat as lattitude ,site.sitelong as longtitude,logs.wlevel as water,logs.created_at as asof, logs.site_id as siteid FROM site INNER JOIN logs on site.id=logs.site_id WHERE logs.cnt IN (SELECT MAX(cnt) FROM logs GROUP BY site_id) AND (site.sensortype = 1 OR site.sensortype = 3)");
+		$result = DB::select("SELECT site.name as Site,site.sitelat as lattitude ,site.sitelong as longtitude,(site.wltbm-site.wly)+logs.wlevel as water,logs.created_at as asof, logs.site_id as siteid FROM site INNER JOIN logs on site.id=logs.site_id WHERE logs.cnt IN (SELECT MAX(cnt) FROM logs GROUP BY site_id) AND (site.sensortype = 1 OR site.sensortype = 3)");
 
  		
 		$parsed['data'] = $result;
@@ -42,7 +42,7 @@ class LatestController extends Controller
 		$date = new DateTime();
 		//$date->modify('-24 hours');
 		$formatted_date = Carbon::now()->subDays(1);
-		$visitCount = DB::table('logs')->join('site', 'site.id', '=', 'logs.site_id')->select(DB::raw("SUM(wlevel) as water"),'logs.site_id','logs.created_at','site.name','site.sensortype')->where('logs.created_at', '>',$formatted_date)
+		$visitCount = DB::table('logs')->join('site', 'site.id', '=', 'logs.site_id')->select(DB::raw("SUM((site.wltbm-site.wly)+logs.wlevel) as water"),'logs.site_id','logs.created_at','site.name','site.sensortype')->where('logs.created_at', '>',$formatted_date)
 		->where(function ($query) {
     	$query->where('site.sensortype','=',1)
         ->orWhere('site.sensortype','=',3);

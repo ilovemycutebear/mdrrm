@@ -28,6 +28,7 @@ Route::get('datatable/{sitelog}','RaintipsController@show');
 Route::get('rainchart/{rchartid}','RainchartController@view');
 Route::get('siteinfo','DatatablesController@index');
 Route::get('editinfo','DatatablesController@editalerts');
+Route::post('editinfo/update','DatatablesController@updatealerts');
 Route::get('editalerts','DatatablesController@editalertsdata');
 Route::get('data','DatatablesController@values');
 Route::get('data/{siteid}','DatatablesController@datafl');

@@ -25,7 +25,6 @@
         <ul class="nav nav-tabs" id="myTab">
         <li class="active"><a data-target="#table" data-toggle="tab">Table</a></li>
         <li><a data-target="#chart" data-toggle="tab">Graph(RAIN)</a></li>
-        <li><a data-target="#wlchart" data-toggle="tab">Graph(WATER LEVEL)</a></li>
 
       </ul>
 
@@ -36,10 +35,11 @@
         <table class="table table-bordered" id="users-table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Date/Time</th>
-                <th>Rain</th>
+                <th>NAME</th>
+                <th>DATE</th>
+                <th>TIME</th>
+                <th>BATTERY</th>
+                <th>RAIN</th>
             </tr>
         </thead>
        </table>
@@ -135,7 +135,7 @@ L.mapbox.featureLayer()
         mapCluster.panTo(e.layer.getLatLng());
         calltable();
         drawChart();
-        drawWlChart();
+        //drawWlChart();
         $('#myModal').modal('show');
 
        
@@ -368,7 +368,7 @@ setInterval(function(){
      $('#hourly-table').DataTable().destroy();
     drawlatestable();
     drawhourlytable();
-  }, 6000);
+  }, 60000);
 
 function calltable(){
 
@@ -378,10 +378,11 @@ function calltable(){
         serverSide: true,
         ajax: '{{URL::asset('data')}}'+"/"+clckr,
         columns: [
-            { data: 'site_id', name: 'site_id' },
             { data: 'name', name: 'name' },
-            { data: 'datetime_10mins', name: 'datetime_10mins' },
-            { data: 'rain10', name: 'rain10' }
+            { data: 'radiodate', name: 'radiodate' },
+            { data: 'radiotime', name: 'radiotime' },
+            { data: 'batteryvolt', name: 'batteryvolt' },
+            { data: 'rvalue', name: 'rvalue' }
         ]
     });
 }
@@ -468,7 +469,7 @@ function drawChart() {
         return 0;
     });
 }
-function drawWlChart() {
+/*function drawWlChart() {
   var jsonData = $.ajax({
           url:  '{{URL::asset('wlaracharts')}}'+"/"+clckr,
           dataType: "json",
@@ -518,7 +519,7 @@ function drawWlChart() {
         document.getElementById('dbgwlchart').innerHTML = '<b>START: </b>'+v.range.start+ '<br /><b>END: </b> ' +v.range.end;
         return 0;
     });
-}
+}*/
 </script>
 @endpush
 

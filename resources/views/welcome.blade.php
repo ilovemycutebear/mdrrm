@@ -3,6 +3,7 @@
 
 @section('content')
 
-        <h1>The Welcome Page goes here</h1>
+        <h1>PAGASA FEWS</h1>
+
 
 @stop
