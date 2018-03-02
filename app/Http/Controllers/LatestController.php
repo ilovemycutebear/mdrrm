@@ -8,6 +8,7 @@ use DB;
 use DateTime;
 use App\logs;
 use App\site;
+use App\tblcompare;
 use Carbon\Carbon;
 
 use App\Http\Requests;
@@ -21,11 +22,23 @@ class LatestController extends Controller
     public function wlgetlatestdata(){
 		$result = DB::select("SELECT site.name as Site,site.sitelat as lattitude ,site.sitelong as longtitude,(site.wltbm-site.wly)+logs.wlevel as water,logs.created_at as asof, logs.site_id as siteid FROM site INNER JOIN logs on site.id=logs.site_id WHERE logs.cnt IN (SELECT MAX(cnt) FROM logs GROUP BY site_id) AND (site.sensortype = 1 OR site.sensortype = 3)");
 
+
+ 		/*DB::table('tblcompare')->insert(
+    					['wleveldata' => $result -> water, 'siteid' =>  $result -> siteid]
+			);*/
  		
-		$parsed['data'] = $result;
+		
+
+ /*foreach ($result as $results){ 
+
+    tblcompare::where('site_id', $results -> siteid)
+          ->update(['wleveldata'=>$results -> water,'created_at'=>$results -> asof,'updated_at'=>$results -> asof]);
+
+	
+ }*/
+	$parsed['data'] = $result;
 		
 		return $parsed;
-	
 		
 
 				}
@@ -49,7 +62,6 @@ class LatestController extends Controller
     	})
 		->groupBy('site_id')->get();
 
-// This will hold the count for you
 		return Datatables::of($visitCount)->make(true);
 		
      	//$finalresult;
@@ -59,7 +71,6 @@ class LatestController extends Controller
 	 public function getlatestdata(){
 		$result = DB::select("SELECT site.name as Site,site.sitelat as lattitude ,site.sitelong as longtitude,logs.rvalue as rainten,logs.created_at as asof, logs.site_id as siteid FROM site INNER JOIN logs on site.id=logs.site_id WHERE logs.cnt IN (SELECT MAX(cnt) FROM logs GROUP BY site_id) AND (site.sensortype = 2 OR site.sensortype = 3)");
 
- 		
 		$parsed['data'] = $result;
 		
 		return $parsed;

@@ -123,7 +123,7 @@ class MapsController extends Controller
 //								  'site_longtitude' => $row['longtitude']
 								  ));
         }
-		foreach ($visitCount as $daily){
+		/*foreach ($visitCount as $daily){
 
 
         $twolong=(float)$daily->sitelong+0.01000;
@@ -159,7 +159,7 @@ class MapsController extends Controller
 //                                'site_lattitude' => $row['lattitude'],
 //                                'site_longtitude' => $row['longtitude']
                                   ));
-        }
+        }*/
 
 
 		$whole = json_encode(array(
@@ -267,7 +267,7 @@ class MapsController extends Controller
 //                                'site_longtitude' => $row['longtitude']
                                   ));
         }
-        foreach ($visitCount as $daily){
+       /* foreach ($visitCount as $daily){
 
 
         $twolong=(float)$daily->sitelong+0.01000;
@@ -303,7 +303,7 @@ class MapsController extends Controller
 //                                'site_lattitude' => $row['lattitude'],
 //                                'site_longtitude' => $row['longtitude']
                                   ));
-        }
+        }*/
 
 
         $whole = json_encode(array(
