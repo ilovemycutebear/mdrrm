@@ -7,6 +7,7 @@ use DB;
 use App\site;
 use Illuminate\Http\Request;
 use App\User;
+use App\computedlogs;
 use App\Http\Requests;
 use Yajra\Datatables\Datatables;
 
@@ -58,6 +59,27 @@ class DatatablesController extends Controller
             ->join('logs', 'site.id', '=', 'logs.site_id')
             ->select(DB::raw('(site.wltbm-site.wly)+logs.wlevel as wlevel,site.name,logs.radiodate,logs.radiotime,logs.batteryvolt,logs.rvalue'))
             ->where('logs.site_id',$siteid)
+            ->get();
+            return  Datatables::of($users)->editColumn('rvalue', function($user){
+                if($user->rvalue > 0){
+                    return "<div class='alert-success text-center'>".$user->rvalue."</div>";
+                }
+                elseif($user->rvalue <= 0){
+                    return "<div class='alert-info text-center'>".$user->rvalue."</div>";
+                };
+            })->editColumn('wlevel', function($water){
+                
+                    return "<div class='alert-info text-center'>".$water->wlevel."</div>";
+            })
+            ->make(true); 
+            
+        
+        }
+    protected function wldatafl($siteid){
+            $users = DB::table('site')
+            ->join('computedlogs', 'site.id', '=', 'computedlogs.site_id')
+            ->select(DB::raw('computedlogs.wlevel as wlevel,site.name,computedlogs.radiodate,computedlogs.radiotime,computedlogs.batteryvolt,computedlogs.rvalue'))
+            ->where('computedlogs.site_id',$siteid)
             ->get();
             return  Datatables::of($users)->editColumn('rvalue', function($user){
                 if($user->rvalue > 0){

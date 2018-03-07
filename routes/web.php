@@ -30,8 +30,12 @@ Route::get('siteinfo','DatatablesController@index');
 Route::get('editinfo','DatatablesController@editalerts');
 Route::post('editinfo/update','DatatablesController@updatealerts');
 Route::get('editalerts','DatatablesController@editalertsdata');
+
 Route::get('data','DatatablesController@values');
 Route::get('data/{siteid}','DatatablesController@datafl');
+
+Route::get('wldata/{siteid}','DatatablesController@wldatafl');
+
 Route::get('joined','DatatablesController@InnJoin');
 Route::get('laracharts/{chartid}', 'ChartController@getLaraChart');
 Route::get('wlaracharts/{chartid}', 'ChartController@getwlLaraChart');

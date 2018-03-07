@@ -402,7 +402,7 @@ function calltable(){
         destroy: true,
         processing: true,
         serverSide: true,
-        ajax: '{{URL::asset('data')}}'+"/"+clckr,
+        ajax: '{{URL::asset('wldata')}}'+"/"+clckr,
         columns: [
             { data: 'name', name: 'name' },
             { data: 'radiodate', name: 'radiodate' },
@@ -447,6 +447,7 @@ function drawhourlytable(){
 function drawlatestable(){
 
     $('#latest-table').DataTable({
+          bSort : false, //disable datatable sorting so it is sorted by wltbm
          searching: false,
          paging: false,
         "ajax": "{{URL::asset('wllatestdata')}}",
