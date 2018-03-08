@@ -15,7 +15,6 @@
     <li data-target="#myCarousel" data-slide-to="6"></li>
     <li data-target="#myCarousel" data-slide-to="7"></li>
     <li data-target="#myCarousel" data-slide-to="8"></li>
-    <li data-target="#myCarousel" data-slide-to="9"></li>
 
   </ol>
 
@@ -26,36 +25,31 @@
     </div>
 
     <div class="item">
-      <img src="{{URL::asset('img/pics/2.jpg')}}" alt="Chicago">
+      <img src="{{URL::asset('img/pics/2.jpg')}}" alt="ayyy">
     </div>
 
     <div class="item">
-      <img src="{{URL::asset('img/pics/3.jpg')}}" alt="New York">
+      <img src="{{URL::asset('img/pics/3.jpg')}}" alt="ayyy">
     </div>
 
     <div class="item">
-      <img src="{{URL::asset('img/pics/4.jpg')}}" alt="New York">
+      <img src="{{URL::asset('img/pics/4.jpg')}}" alt="ayyy">
     </div>
 
      <div class="item">
-      <img src="{{URL::asset('img/pics/5.jpg')}}" alt="New York">
+      <img src="{{URL::asset('img/pics/5.jpg')}}" alt="ayyy">
     </div>
 
      <div class="item">
-      <img src="{{URL::asset('img/pics/6.jpg')}}" alt="New York">
+      <img src="{{URL::asset('img/pics/6.jpg')}}" alt="ayyy">
     </div>
 
      <div class="item">
-      <img src="{{URL::asset('img/pics/7.jpg')}}" alt="New York">
-    </div>
-
-
-    <div class="item">
-      <img src="{{URL::asset('img/pics/8.jpg')}}" alt="New York">
+      <img src="{{URL::asset('img/pics/8.jpg')}}" alt="ayyy">
     </div>
 
     <div class="item">
-      <img src="{{URL::asset('img/pics/9.jpg')}}" alt="New York">
+      <img src="{{URL::asset('img/pics/9.jpg')}}" alt="ayyy">
     </div>
   </div>
 
