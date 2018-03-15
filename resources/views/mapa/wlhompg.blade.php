@@ -418,6 +418,7 @@ function warningtable(){
         processing: true,
         serverSide: true,
         searching: false,
+        bSort : false,
         paging: false,
         ajax: '{{URL::asset('editalerts')}}',
         columns: [
@@ -435,6 +436,7 @@ function drawhourlytable(){
         processing: true,
         serverSide: true,
         searching: false,
+        bSort : false,
         paging: false,
         ajax: '{{URL::asset('wlhourlydata')}}',
         columns: [

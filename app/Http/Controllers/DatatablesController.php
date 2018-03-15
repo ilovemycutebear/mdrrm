@@ -101,13 +101,13 @@ class DatatablesController extends Controller
              return view('datatables.editalerts');
         }
         public function editalertsdata(){
-
+             $caster = "CAST(wltbm AS UNSIGNED ) DESC";
 
               $users = DB::table('site')
             ->select(['id','name', 'sitelat', 'sitelong', 'sitelev', 'wlalert', 'wlalarm','wlcritical','wltbm','wly'])->where(function ($query) {
         $query->where('sensortype','=',1)
         ->orWhere('sensortype','=',3);
-        })->get();
+        })->orderByRaw($caster)->get();
 
    
 

@@ -45,7 +45,7 @@ class LatestController extends Controller
 				}
 	public function wlgethourlydata(){
 
-
+		 $caster = "CAST(site.wltbm AS UNSIGNED ) DESC";
 		/*$date = new DateTime();
 		$date->modify('-3 hours');
 		$formatted_date = $date->format('Y-m-d H:i:s');
@@ -61,7 +61,7 @@ class LatestController extends Controller
     	$query->where('site.sensortype','=',1)
         ->orWhere('site.sensortype','=',3);
     	})
-		->groupBy('site_id')->get();
+		->groupBy('site_id')->orderByRaw($caster)->get();
 
 		return Datatables::of($visitCount)->make(true);
 		
