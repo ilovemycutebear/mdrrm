@@ -383,6 +383,10 @@ function calltable(){
             { data: 'radiotime', name: 'radiotime' },
             { data: 'batteryvolt', name: 'batteryvolt' },
             { data: 'rvalue', name: 'rvalue' }
+        ],
+        dom: 'Bfrtip',
+        buttons: [
+             'copy', 'excel', 'pdf', 'print'
         ]
     });
 }

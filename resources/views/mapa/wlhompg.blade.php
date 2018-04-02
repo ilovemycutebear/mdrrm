@@ -409,6 +409,10 @@ function calltable(){
             { data: 'radiotime', name: 'radiotime' },
             { data: 'batteryvolt', name: 'batteryvolt' },
             { data: 'wlevel', name: 'wlevel' }
+        ],
+        dom: 'Bfrtip',
+        buttons: [
+             'copy', 'excel', 'pdf', 'print'
         ]
     });
 }
