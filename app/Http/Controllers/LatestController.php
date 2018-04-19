@@ -55,7 +55,7 @@ class LatestController extends Controller
 		return $lb;*/
 		$date = new DateTime();
 		//$date->modify('-24 hours');
-		$formatted_date = Carbon::now()->subDays(1);
+		$formatted_date = Carbon::now()->subHour(1);
 		$visitCount = DB::table('computedlogs')->join('site', 'site.id', '=', 'computedlogs.site_id')->select(DB::raw("computedlogs.wlevel as water"),'computedlogs.site_id','computedlogs.created_at','site.name','site.sensortype')->where('computedlogs.created_at', '>',$formatted_date)
 		->where(function ($query) {
     	$query->where('site.sensortype','=',1)
@@ -91,7 +91,7 @@ class LatestController extends Controller
 		return $lb;*/
 		$date = new DateTime();
 		//$date->modify('-24 hours');
-		$formatted_date = Carbon::now()->subDays(1);
+		$formatted_date = Carbon::now('UTC')->subDays(1);
 		$visitCount = DB::table('logs')->join('site', 'site.id', '=', 'logs.site_id')->select(DB::raw("SUM(rvalue) as rain"),'logs.site_id','logs.created_at','site.name','site.sensortype')->where('logs.created_at', '>',$formatted_date)
 		->where(function ($query) {
     	$query->where('site.sensortype','=',2)

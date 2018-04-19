@@ -36,8 +36,7 @@
         <thead>
             <tr>
                 <th>NAME</th>
-                <th>DATE</th>
-                <th>TIME</th>
+                <th>DATE/TIME</th>
                 <th>BATTERY</th>
                 <th>WATER LEVEL</th>
             </tr>
@@ -405,8 +404,7 @@ function calltable(){
         ajax: '{{URL::asset('wldata')}}'+"/"+clckr,
         columns: [
             { data: 'name', name: 'name' },
-            { data: 'radiodate', name: 'radiodate' },
-            { data: 'radiotime', name: 'radiotime' },
+            { data: 'created_at', name: 'date/time' },
             { data: 'batteryvolt', name: 'batteryvolt' },
             { data: 'wlevel', name: 'wlevel' }
         ],
