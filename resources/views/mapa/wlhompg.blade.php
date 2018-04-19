@@ -104,8 +104,7 @@
         <thead>
             <tr class="bg-primary">
                 <th>SITE NAME</th>
-                <th>DATE/TIME</th>
-                <th>LEVEL<br>1 HR</th>
+                <th>AVERAGE LEVEL<br>1 HR</th>
             </tr>
         </thead>
        </table>
@@ -443,7 +442,6 @@ function drawhourlytable(){
         ajax: '{{URL::asset('wlhourlydata')}}',
         columns: [
             { data: 'name', name: 'name' },
-            { data: 'created_at', name: 'created_at' },
             { data: 'water', name: 'water' }
         ]
     });
