@@ -378,7 +378,7 @@ function calltable(){
         ajax: '{{URL::asset('data')}}'+"/"+clckr,
         columns: [
             { data: 'name', name: 'name' },
-            { data: 'created_at', name: 'date/time' },
+            { data: 'created_at', name: 'created_at' },
             { data: 'batteryvolt', name: 'batteryvolt' },
             { data: 'rvalue', name: 'rvalue' }
         ],

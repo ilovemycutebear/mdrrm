@@ -403,11 +403,10 @@ function calltable(){
         ajax: '{{URL::asset('wldata')}}'+"/"+clckr,
         columns: [
             { data: 'name', name: 'name' },
-            { data: 'created_at', name: 'date/time' },
+            { data: 'created_at', name: 'created_at' },
             { data: 'batteryvolt', name: 'batteryvolt' },
             { data: 'wlevel', name: 'wlevel' }
-        ],
-         order: [ [0, 'desc'] ],
+        ], 
         dom: 'Bfrtip',
         buttons: [
              'copy', 'excel', 'pdf', 'print'
