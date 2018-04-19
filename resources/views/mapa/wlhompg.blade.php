@@ -407,6 +407,7 @@ function calltable(){
             { data: 'batteryvolt', name: 'batteryvolt' },
             { data: 'wlevel', name: 'wlevel' }
         ],
+         order: [ [0, 'desc'] ],
         dom: 'Bfrtip',
         buttons: [
              'copy', 'excel', 'pdf', 'print'
