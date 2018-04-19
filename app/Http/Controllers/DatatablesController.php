@@ -55,8 +55,8 @@ class DatatablesController extends Controller
         	//return view('datatables.index',compact('dtable'));      	
         }
         protected function datafl($siteid){
-            $users = DB::table('site')
-            ->join('logs', 'site.id', '=', 'logs.site_id')
+            $users = DB::table('logs')
+            ->join('site', 'site.id', '=', 'logs.site_id')
             ->select(DB::raw('(site.wltbm-site.wly)+logs.wlevel as wlevel,site.name,logs.created_at,logs.batteryvolt,logs.rvalue'))
             ->where('logs.site_id',$siteid)
             ->get();
@@ -76,8 +76,8 @@ class DatatablesController extends Controller
         
         }
     protected function wldatafl($siteid){
-            $users = DB::table('site')
-            ->join('computedlogs', 'site.id', '=', 'computedlogs.site_id')
+            $users = DB::table('computedlogs')
+            ->join('site', 'site.id', '=', 'computedlogs.site_id')
             ->select(DB::raw('computedlogs.wlevel as wlevel,site.name,computedlogs.created_at,computedlogs.batteryvolt,computedlogs.rvalue'))
             ->where('computedlogs.site_id',$siteid)
             ->get();

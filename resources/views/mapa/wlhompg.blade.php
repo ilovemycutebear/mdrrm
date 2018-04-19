@@ -400,6 +400,7 @@ function calltable(){
         destroy: true,
         processing: true,
         serverSide: true,
+        iDisplayLength: All,
         ajax: '{{URL::asset('wldata')}}'+"/"+clckr,
         columns: [
             { data: 'name', name: 'name' },
