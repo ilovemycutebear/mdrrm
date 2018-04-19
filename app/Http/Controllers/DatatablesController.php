@@ -58,7 +58,7 @@ class DatatablesController extends Controller
             $users = DB::table('logs')
             ->join('site', 'site.id', '=', 'logs.site_id')
             ->select(DB::raw('(site.wltbm-site.wly)+logs.wlevel as wlevel,site.name,logs.created_at,logs.batteryvolt,logs.rvalue'))
-            ->where('logs.site_id',$siteid)->orderBy('logs.created_at','DESC')
+            ->where('logs.site_id',$siteid)->orderBy('logs.created_at','ASC')
             ->get();
             return  Datatables::of($users)->editColumn('rvalue', function($user){
                 if($user->rvalue > 0){
@@ -79,7 +79,7 @@ class DatatablesController extends Controller
             $users = DB::table('computedlogs')
             ->join('site', 'site.id', '=', 'computedlogs.site_id')
             ->select(DB::raw('computedlogs.wlevel as wlevel,site.name,computedlogs.created_at,computedlogs.batteryvolt,computedlogs.rvalue'))
-            ->where('computedlogs.site_id',$siteid)->orderBy('computedlogs.created_at','DESC')
+            ->where('computedlogs.site_id',$siteid)->orderBy('computedlogs.created_at','ASC')
             ->get();
             return  Datatables::of($users)->editColumn('rvalue', function($user){
                 if($user->rvalue > 0){

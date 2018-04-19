@@ -373,8 +373,6 @@ function calltable(){
 
     $('#users-table').DataTable({
         destroy: true,
-        processing: true,
-        serverSide: true,
         ajax: '{{URL::asset('data')}}'+"/"+clckr,
         columns: [
             { data: 'name', name: 'name' },
