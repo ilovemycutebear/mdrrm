@@ -55,8 +55,8 @@ class LatestController extends Controller
 		return $lb;*/
 		$date = new DateTime();
 		//$date->modify('-24 hours');
-		$formatted_date = Carbon::now()->subHour(1);
-		$visitCount = DB::table('computedlogs')->join('site', 'site.id', '=', 'computedlogs.site_id')->select(DB::raw("computedlogs.wlevel as water"),'computedlogs.site_id','computedlogs.created_at','site.name','site.sensortype')->where('computedlogs.created_at', '>',$formatted_date)
+		$formatted_date = Carbon::now()->subHour();
+		$visitCount = DB::table('computedlogs')->join('site', 'site.id', '=', 'computedlogs.site_id')->select(DB::raw("computedlogs.wlevel as water"),'computedlogs.site_id','computedlogs.created_at','site.name','site.sensortype')->where('computedlogs.created_at', '>=',$formatted_date->toDateTimeString())
 		->where(function ($query) {
     	$query->where('site.sensortype','=',1)
         ->orWhere('site.sensortype','=',3);
