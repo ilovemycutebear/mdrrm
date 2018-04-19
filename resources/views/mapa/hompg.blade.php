@@ -267,7 +267,7 @@ var grydrpv = L.Icon.extend({
 
         var rf = parseFloat(layer.feature.properties.description.rainfall);
         if(layer.feature.properties.description.dataof=="daily"){
-          if(rf <= 0){
+          if((rf >= 0)&&(rf <= 0.9)){
         layer.setIcon(new grydrpv);
 
         }
