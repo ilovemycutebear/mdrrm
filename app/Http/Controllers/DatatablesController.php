@@ -60,9 +60,7 @@ class DatatablesController extends Controller
             ->select(DB::raw('(site.wltbm-site.wly)+logs.wlevel as wlevel,site.name,logs.created_at,logs.batteryvolt,logs.rvalue'))
             ->where('logs.site_id',$siteid)->orderBy('logs.created_at','DESC')
             ->get();
-            return  Datatables::of($users)->make(true); 
-
-           /* ->editColumn('rvalue', function($user){
+            return  Datatables::of($users)->editColumn('rvalue', function($user){
                 if($user->rvalue > 0){
                     return "<div class='alert-success text-center'>".$user->rvalue."</div>";
                 }
@@ -72,8 +70,8 @@ class DatatablesController extends Controller
             })->editColumn('wlevel', function($water){
                 
                     return "<div class='alert-info text-center'>".$water->wlevel."</div>";
-            })*/
-         
+            })
+            ->make(true); 
             
         
         }
@@ -83,9 +81,7 @@ class DatatablesController extends Controller
             ->select(DB::raw('computedlogs.wlevel as wlevel,site.name,computedlogs.created_at,computedlogs.batteryvolt,computedlogs.rvalue'))
             ->where('computedlogs.site_id',$siteid)->orderBy('computedlogs.created_at','DESC')
             ->get();
-            return  Datatables::of($users)->make(true); 
-
-            /*->editColumn('rvalue', function($user){
+            return  Datatables::of($users)->editColumn('rvalue', function($user){
                 if($user->rvalue > 0){
                     return "<div class='alert-success text-center'>".$user->rvalue."</div>";
                 }
@@ -95,8 +91,8 @@ class DatatablesController extends Controller
             })->editColumn('wlevel', function($water){
                 
                     return "<div class='alert-info text-center'>".$water->wlevel."</div>";
-            })*/
-            
+            })
+            ->make(true); 
             
         
         }
