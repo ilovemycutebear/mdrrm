@@ -122,7 +122,7 @@ var clusterGroup = new L.layerGroup();
 L.mapbox.accessToken = 'pk.eyJ1IjoicGFnYXNhbGVnYXpwaSIsImEiOiJjaXM2M3R2eHcwY3A2Mm9sa3RicmJybXU2In0._oRLkJwo06X4W8wBXgN-ig';
 var mapCluster = L.mapbox.map('map-cluster')
   .setView([17.513655, 120.671699],10)
-  .addLayer(L.mapbox.tileLayer('mapbox.streets'));
+  .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/satellite-v9'));
      function loadmarkers(){
       var ler = '012345';
 L.mapbox.featureLayer()
@@ -377,7 +377,7 @@ function calltable(){
         columns: [
             { data: 'name', name: 'name' },
             { data: 'created_at', name: 'created_at' },
-            { data: 'batteryvolt', name: 'batteryvolt' },
+            { data: 'batteryvolt', name: 'batteryvolt' , orderable: false},
             { data: 'rvalue', name: 'rvalue' }
         ],
         dom: 'Bfrtip',
@@ -393,6 +393,8 @@ function drawhourlytable(){
         processing: true,
         serverSide: true,
         searching: false,
+        ordering: false, //remove ordering button
+        bInfo : false, //remove showing entries
         paging: false,
         ajax: '{{URL::asset('hourlydata')}}',
         columns: [
@@ -405,6 +407,9 @@ function drawlatestable(){
     $('#latest-table').DataTable({
          searching: false,
          paging: false,
+        ordering: false, //remove ordering button
+        bInfo : false, //remove showing entries
+        paging: false,
         "ajax": "{{URL::asset('latestdata')}}",
         "columns": [
             { "data": 'Site', "name": 'name' },

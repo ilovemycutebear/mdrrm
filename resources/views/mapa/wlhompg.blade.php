@@ -135,7 +135,7 @@ var clusterGroup = new L.layerGroup();
 L.mapbox.accessToken = 'pk.eyJ1IjoicGFnYXNhbGVnYXpwaSIsImEiOiJjaXM2M3R2eHcwY3A2Mm9sa3RicmJybXU2In0._oRLkJwo06X4W8wBXgN-ig';
 var mapCluster = L.mapbox.map('map-cluster')
   .setView([17.513655, 120.671699],10)
-  .addLayer(L.mapbox.tileLayer('mapbox.streets'));
+  .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/satellite-v9'));
      function loadmarkers(){
       var ler = '012345';
 L.mapbox.featureLayer()
@@ -402,7 +402,7 @@ function calltable(){
         columns: [
             { data: 'name', name: 'name' },
             { data: 'created_at', name: 'created_at' },
-            { data: 'batteryvolt', name: 'batteryvolt' },
+            { data: 'batteryvolt', name: 'batteryvolt' , orderable: false},
             { data: 'wlevel', name: 'wlevel' }
         ], 
         dom: 'Bfrtip',
@@ -419,6 +419,8 @@ function warningtable(){
         searching: false,
         bSort : false,
         paging: false,
+        ordering: false, //remove ordering button
+        bInfo : false, //remove showing entries
         ajax: '{{URL::asset('editalerts')}}',
         columns: [
             { data: 'name', name: 'name' },
@@ -437,6 +439,8 @@ function drawhourlytable(){
         searching: false,
         bSort : false,
         paging: false,
+        ordering: false, //remove ordering button
+        bInfo : false, //remove showing entries
         ajax: '{{URL::asset('wlhourlydata')}}',
         columns: [
             { data: 'name', name: 'name' },
@@ -447,6 +451,8 @@ function drawhourlytable(){
 function drawlatestable(){
 
     $('#latest-table').DataTable({
+        ordering: false, //remove ordering button
+        bInfo : false, //remove showing entries
           bSort : false, //disable datatable sorting so it is sorted by wltbm
          searching: false,
          paging: false,
