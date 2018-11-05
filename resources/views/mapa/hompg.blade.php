@@ -93,7 +93,7 @@
             <tr class="bg-primary">
                 <th>SITE NAME</th>
                 <th>DATE/TIME</th>
-                <th>RAIN<br>10 MN</th>
+                <th>RAIN<br>10 MINS</th>
             </tr>
         </thead>
        </table>
@@ -121,8 +121,8 @@ var clckr;
 var clusterGroup = new L.layerGroup();
 L.mapbox.accessToken = 'pk.eyJ1IjoicGFnYXNhbGVnYXpwaSIsImEiOiJjaXM2M3R2eHcwY3A2Mm9sa3RicmJybXU2In0._oRLkJwo06X4W8wBXgN-ig';
 var mapCluster = L.mapbox.map('map-cluster')
-  .setView([17.513655, 120.671699],10)
-  .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/satellite-v9'));
+  .setView([14.650735, 121.102775],13)
+  .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v9'));
      function loadmarkers(){
       var ler = '012345';
 L.mapbox.featureLayer()
@@ -343,7 +343,7 @@ var grydrpv = L.Icon.extend({
 
         
   });
-  $.getJSON("{{URL::asset('geojson/abrafews.geojson')}}", function(data) { 
+  /*$.getJSON("{{URL::asset('geojson/keyml.geojson')}}", function(data) { 
   
  // dataLayer
   //addDataToMap(data, mapCluster); 
@@ -351,7 +351,8 @@ var grydrpv = L.Icon.extend({
   dataLayer = L.geoJson(data);
   dataLayer.setStyle({color: "#FF5500"})
   dataLayer.addTo(clusterGroup);
-  });
+  }); */
+//KML LAYER
 
   mapCluster.addLayer(clusterGroup);
 
@@ -407,6 +408,7 @@ function drawlatestable(){
     $('#latest-table').DataTable({
          searching: false,
          paging: false,
+        bSort : false, //disable datatable sorting so it is sorted by wltbm
         ordering: false, //remove ordering button
         bInfo : false, //remove showing entries
         paging: false,

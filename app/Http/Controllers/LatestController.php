@@ -21,7 +21,7 @@ class LatestController extends Controller
 {
     //
     public function wlgetlatestdata(){
-		$result = DB::select("SELECT site.name as Site,site.sitelat as lattitude ,site.sitelong as longtitude,computedlogs.wlevel as water,computedlogs.created_at as asof, computedlogs.site_id as siteid FROM site INNER JOIN computedlogs on site.id=computedlogs.site_id WHERE computedlogs.cnt IN (SELECT MAX(cnt) FROM computedlogs GROUP BY site_id) AND (site.sensortype = 1 OR site.sensortype = 3) ORDER BY CAST(site.wltbm AS UNSIGNED ) DESC");
+		$result = DB::select("SELECT site.name as Site,site.sitelat as lattitude ,site.sitelong as longtitude,FORMAT(logs.wlevel,2) as water,logs.created_at as asof, logs.site_id as siteid FROM site INNER JOIN logs on site.id=logs.site_id WHERE logs.cnt IN (SELECT MAX(cnt) FROM logs GROUP BY site_id) AND (site.sensortype = 1 OR site.sensortype = 3) ORDER BY CAST(site.wltbm AS UNSIGNED ) DESC");
 
 
  		/*DB::table('tblcompare')->insert(
@@ -56,7 +56,7 @@ class LatestController extends Controller
 		$date = new DateTime();
 		//$date->modify('-24 hours');
 		$formatted_date = Carbon::now()->subHours(1);
-		$visitCount = DB::table('computedlogs')->join('site', 'site.id', '=', 'computedlogs.site_id')->select(DB::raw("computedlogs.wlevel as water"),'computedlogs.site_id','computedlogs.created_at','site.name','site.sensortype')->where('computedlogs.created_at', '>=',$formatted_date->toDateTimeString())
+		$visitCount = DB::table('logs')->join('site', 'site.id', '=', 'logs.site_id')->select(DB::raw("FORMAT(logs.wlevel,2) as water"),'logs.site_id','logs.created_at','site.name','site.sensortype')->where('logs.created_at', '>=',$formatted_date->toDateTimeString())
 		->where(function ($query) {
     	$query->where('site.sensortype','=',1)
         ->orWhere('site.sensortype','=',3);
@@ -70,7 +70,7 @@ class LatestController extends Controller
 		
 	}
 	 public function getlatestdata(){
-		$result = DB::select("SELECT site.name as Site,site.sitelat as lattitude ,site.sitelong as longtitude,logs.rvalue as rainten,logs.created_at as asof, logs.site_id as siteid FROM site INNER JOIN logs on site.id=logs.site_id WHERE logs.cnt IN (SELECT MAX(cnt) FROM logs GROUP BY site_id) AND (site.sensortype = 2 OR site.sensortype = 3)");
+		$result = DB::select("SELECT site.name as Site,site.sitelat as lattitude ,site.sitelong as longtitude,FORMAT(logs.rvalue, 2)as rainten,logs.created_at as asof, logs.site_id as siteid FROM site INNER JOIN logs on site.id=logs.site_id WHERE logs.cnt IN (SELECT MAX(cnt) FROM logs GROUP BY site_id) AND (site.sensortype = 2 OR site.sensortype = 3)ORDER BY CAST(site.wltbm AS UNSIGNED ) DESC");
 
 		$parsed['data'] = $result;
 		
@@ -92,7 +92,7 @@ class LatestController extends Controller
 		$date = new DateTime();
 		//$date->modify('-24 hours');
 		$formatted_date = Carbon::now('UTC')->subDays(1);
-		$visitCount = DB::table('logs')->join('site', 'site.id', '=', 'logs.site_id')->select(DB::raw("SUM(rvalue) as rain"),'logs.site_id','logs.created_at','site.name','site.sensortype')->where('logs.created_at', '>',$formatted_date)
+		$visitCount = DB::table('logs')->join('site', 'site.id', '=', 'logs.site_id')->select(DB::raw("FORMAT(SUM(rvalue), 2) as rain"),'logs.site_id','logs.created_at','site.name','site.sensortype')->where('logs.created_at', '>',$formatted_date)
 		->where(function ($query) {
     	$query->where('site.sensortype','=',2)
         ->orWhere('site.sensortype','=',3);

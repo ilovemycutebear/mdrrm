@@ -1,8 +1,4 @@
 @extends('masterdesign')
-
-
-
-
 @section('content')
 
 	<h1>All Rain values Here</h1>

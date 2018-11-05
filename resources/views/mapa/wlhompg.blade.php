@@ -2,6 +2,7 @@
 
 
 @section('content')
+
 <div class="container-fluid">
 
       <div class="container">
@@ -134,8 +135,8 @@ var clckr;
 var clusterGroup = new L.layerGroup();
 L.mapbox.accessToken = 'pk.eyJ1IjoicGFnYXNhbGVnYXpwaSIsImEiOiJjaXM2M3R2eHcwY3A2Mm9sa3RicmJybXU2In0._oRLkJwo06X4W8wBXgN-ig';
 var mapCluster = L.mapbox.map('map-cluster')
-  .setView([17.513655, 120.671699],10)
-  .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/satellite-v9'));
+  .setView([14.650735, 121.102775],13)
+  .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v9'));
      function loadmarkers(){
       var ler = '012345';
 L.mapbox.featureLayer()
@@ -228,8 +229,7 @@ var icnormal = L.Icon.extend({
 
 
         var wl  = (wlb-wlc)+wla;
-        if(sitenm=="DOLORES"){
-          console.log("dolores WL:"+ sitenm);
+        if(sitenm=="BARETBET"){
           if((wl >= parseFloat(layer.feature.properties.description.wlalarm))&&(wl <= parseFloat(layer.feature.properties.description.wlcritical))){
         layer.setIcon(new icnalarm);
 
@@ -249,8 +249,7 @@ var icnormal = L.Icon.extend({
         }
 
         }
-        if(sitenm=="LA PAZ"){
-          console.log("la paz WL:"+ sitenm);
+        if(sitenm=="LAMUT BRIDGE"){
           if((wl >= parseFloat(layer.feature.properties.description.wlalarm))&&(wl <= parseFloat(layer.feature.properties.description.wlcritical))){
         layer.setIcon(new icnalarm);
 
@@ -270,8 +269,7 @@ var icnormal = L.Icon.extend({
         }
           
         }
-        if(sitenm=="VIGAN"){
-          console.log("vigan WL:"+ sitenm);
+        if(sitenm=="IBULAO RIVER"){
           if((wl >= parseFloat(layer.feature.properties.description.wlalarm))&&(wl <= parseFloat(layer.feature.properties.description.wlcritical))){
         layer.setIcon(new icnalarm);
 
@@ -290,8 +288,7 @@ var icnormal = L.Icon.extend({
 
         }
         }
-        if(sitenm=="BANTAY"){
-          console.log("bantay WL:"+ sitenm);
+        if(sitenm=="SAN LEONARDO BRIDGE"){
           if((wl >= parseFloat(layer.feature.properties.description.wlalarm))&&(wl <= parseFloat(layer.feature.properties.description.wlcritical))){
         layer.setIcon(new icnalarm);
 
@@ -310,8 +307,26 @@ var icnormal = L.Icon.extend({
 
         }  
         }
-        if(sitenm=="QUIRINO(B)"){
-          console.log("quirinob WL:"+ sitenm);
+        if(sitenm=="LAMO BRIDGE"){
+          if((wl >= parseFloat(layer.feature.properties.description.wlalarm))&&(wl <= parseFloat(layer.feature.properties.description.wlcritical))){
+        layer.setIcon(new icnalarm);
+
+        }
+         else if((wl >= parseFloat(layer.feature.properties.description.wlalert))&&(wl <= layer.feature.properties.description.wlalarm)){
+
+        layer.setIcon(new icnalert);
+
+        }
+        else if(wl >= parseFloat(layer.feature.properties.description.wlcritical)){
+        layer.setIcon(new icncritical);
+
+        }    
+        else if(wl < parseFloat(layer.feature.properties.description.wlalarm)){
+        layer.setIcon(new icnormal);
+
+        }
+        }
+        if(sitenm=="HALONG RG"){
           if((wl >= parseFloat(layer.feature.properties.description.wlalarm))&&(wl <= parseFloat(layer.feature.properties.description.wlcritical))){
         layer.setIcon(new icnalarm);
 
@@ -365,9 +380,9 @@ var icnormal = L.Icon.extend({
 
 
         layer.bindTooltip(layer.feature.properties.description.Sitename,{ direction:'left', permanent: true, opacity : 0.6, offset : L.point(10,10), className: 'myCSSClass' });
-        layer.bindPopup("<h1>"+layer.feature.properties.description.Sitename+ "</h1><h2><small> Rainfall: "+layer.feature.properties.description.rainfall+"</small></h2><h2><small> As Of: "+layer.feature.properties.description.asof+"</small></h2>");
+        layer.bindPopup("<h1>"+layer.feature.properties.description.Sitename+ "</h1><h2><small> Level: "+wl+"</small></h2><h2><small> As Of: "+layer.feature.properties.description.asof+"</small></h2>");
   });
-  $.getJSON("{{URL::asset('geojson/abrafews.geojson')}}", function(data) { 
+  /*$.getJSON("{{URL::asset('geojson/keyml.geojson')}}", function(data) { 
   
  // dataLayer
   //addDataToMap(data, mapCluster); 
@@ -375,7 +390,7 @@ var icnormal = L.Icon.extend({
   dataLayer = L.geoJson(data);
   dataLayer.setStyle({color: "#FF5500"})
   dataLayer.addTo(clusterGroup);
-  });
+  });*/
 
   mapCluster.addLayer(clusterGroup);
 

@@ -18,6 +18,7 @@ class ChartController extends Controller
     	$charth = $lava->DataTable();
     	$data = logs::select('created_at as 0','rvalue as 1')
     	->where('site_id',$chartid)
+       ->orderBy('created_at', 'asc')
         ->take(1000)
     	->get()->toArray();
 
@@ -36,14 +37,15 @@ class ChartController extends Controller
     
         
     }
-           public function getwlLaraChart($chartid)
+           public function getwlLaraChart($chartids)
     {
       $lava = new Lavacharts;
 
       $wlcharth = $lava->DataTable();
       $data = logs::join('site', 'site.id', '=', 'logs.site_id')
       ->select(DB::raw('logs.created_at as "0",(site.wltbm-site.wly)+logs.wlevel as "1"'))
-      ->where('site_id',$chartid)
+      ->where('site_id',$chartids)
+      ->orderBy('logs.created_at', 'asc')
      ->take(1000)
       ->get()->toArray();
 

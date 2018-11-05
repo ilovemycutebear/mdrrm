@@ -3,6 +3,7 @@
 
 @section('content')
 
+
    <div id="myCarousel" class="carousel slide" data-ride="carousel">
   <!-- Indicators -->
   <ol class="carousel-indicators">
@@ -15,42 +16,18 @@
     <li data-target="#myCarousel" data-slide-to="6"></li>
     <li data-target="#myCarousel" data-slide-to="7"></li>
     <li data-target="#myCarousel" data-slide-to="8"></li>
+    <li data-target="#myCarousel" data-slide-to="9"></li>
+    <li data-target="#myCarousel" data-slide-to="10"></li>
+    <li data-target="#myCarousel" data-slide-to="11"></li>
+
 
   </ol>
 
   <!-- Wrapper for slides -->
-  <div class="carousel-inner">
-    <div class="item active">
-      <img src="{{URL::asset('img/pics/1.jpg')}}" alt="Los Angeles">
-    </div>
 
-    <div class="item">
-      <img src="{{URL::asset('img/pics/2.jpg')}}" alt="ayyy">
-    </div>
 
-    <div class="item">
-      <img src="{{URL::asset('img/pics/3.jpg')}}" alt="ayyy">
-    </div>
 
-    <div class="item">
-      <img src="{{URL::asset('img/pics/4.jpg')}}" alt="ayyy">
-    </div>
 
-     <div class="item">
-      <img src="{{URL::asset('img/pics/5.jpg')}}" alt="ayyy">
-    </div>
-
-     <div class="item">
-      <img src="{{URL::asset('img/pics/6.jpg')}}" alt="ayyy">
-    </div>
-
-     <div class="item">
-      <img src="{{URL::asset('img/pics/8.jpg')}}" alt="ayyy">
-    </div>
-
-    <div class="item">
-      <img src="{{URL::asset('img/pics/9.jpg')}}" alt="ayyy">
-    </div>
   </div>
 
   <!-- Left and right controls -->

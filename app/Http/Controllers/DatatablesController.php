@@ -78,7 +78,7 @@ class DatatablesController extends Controller
     protected function wldatafl($siteid){
             $users = DB::table('computedlogs')
             ->join('site', 'site.id', '=', 'computedlogs.site_id')
-            ->select(DB::raw('computedlogs.wlevel as wlevel,site.name,computedlogs.created_at,computedlogs.batteryvolt,computedlogs.rvalue'))
+            ->select(DB::raw('(site.wltbm-site.wly)+computedlogs.wlevel as wlevel,site.name,computedlogs.created_at,computedlogs.batteryvolt,computedlogs.rvalue'))
             ->where('computedlogs.site_id',$siteid)->orderBy('computedlogs.created_at','DESC')
             ->get();
             return  Datatables::of($users)->editColumn('rvalue', function($user){
@@ -96,6 +96,7 @@ class DatatablesController extends Controller
             
         
         }
+        
         public function editalerts(){
 
              return view('datatables.editalerts');
