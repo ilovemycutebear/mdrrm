@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="refresh" content="300" />
-        <title>MARIKINA DRRMO</title>
+        <title>MALABON DRRMO</title>
         <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="//cdn.datatables.net/1.10.8/css/jquery.dataTables.min.css">
   <link href='https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.css' rel='stylesheet' />
@@ -28,7 +28,7 @@
         body{
     height: 100%;
     padding-top: 40px;
-    background-image: url("{{URL::asset('img/background.png')}}");
+    background-image: url("{{URL::asset('img/background.jpg')}}");
     background-repeat: no-repeat;
     background-size: cover;
 }  
@@ -69,8 +69,8 @@ h3 {
  $colHover       : #ffe6d1; /*/
 /* --- Style --- */
 .navbar-default {
-  background-color: #0a0552;
-  border-color: #35abbd;
+  background-color: #f70291;
+  border-color: #f70291;
 }
 .navbar-default .navbar-brand {
   color: #fffdb3;
@@ -93,7 +93,7 @@ h3 {
 .navbar-default .navbar-nav > .active > a:hover,
 .navbar-default .navbar-nav > .active > a:focus {
   color: #f0ff00;
-  background-color: #35abbd;
+  background-color:#84014d;
 }
 .navbar-default .navbar-nav > .open > a,
 .navbar-default .navbar-nav > .open > a:hover,
@@ -151,7 +151,7 @@ h3 {
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand">MARIKINA DRRMO</a>
+          <a class="navbar-brand">MALABON DRRMO</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">

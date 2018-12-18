@@ -93,7 +93,7 @@
         <thead>
             <tr class="bg-primary">
                 <th>SITE NAME</th>
-                <th>CREATED AT</th>
+                <th>DATE/TIME</th>
                 <th>WL</th>
             </tr>
         </thead>
@@ -135,7 +135,7 @@ var clckr;
 var clusterGroup = new L.layerGroup();
 L.mapbox.accessToken = 'pk.eyJ1IjoicGFnYXNhbGVnYXpwaSIsImEiOiJjaXM2M3R2eHcwY3A2Mm9sa3RicmJybXU2In0._oRLkJwo06X4W8wBXgN-ig';
 var mapCluster = L.mapbox.map('map-cluster')
-  .setView([14.650735, 121.102775],13)
+  .setView([14.668411, 120.968182],11)
   .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v9'));
      function loadmarkers(){
       var ler = '012345';

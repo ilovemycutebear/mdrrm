@@ -15,7 +15,7 @@
              <div class="col-xs-6 col-md-4">
 
                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                   <a class="btn btn-lg btn-success pagination-centered" href="https://www.facebook.com/MarikinaRescue161/" target="_blank" role="button">MARIKINA DRRMO FB PAGE</a></p>
+                   <a class="btn btn-lg btn-success pagination-centered" href="https://www.facebook.com/drrmomalabon/" target="_blank" role="button">MALABON DRRMO FB PAGE</a></p>
             </div>
             <div class="col-xs-6 col-md-4">
                     

@@ -55,7 +55,7 @@ return [
         'mysql' => [
             'driver' => 'mysql',
             'host' => env('DB_HOST', '127.0.0.1'),
-            'database' => env('DB_DATABASE', 'rainfall_cnt'),
+            'database' => env('DB_DATABASE', 'rainfall_cntb'),
             'username' => env('DB_USERNAME', 'adminler'),
             'password' => env('DB_PASSWORD', 'tinylerroi'),
             'charset' => 'utf8',
