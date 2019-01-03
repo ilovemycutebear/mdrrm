@@ -2,532 +2,336 @@
 
 
 @section('content')
-<div class="container-fluid">
-
-      <div class="container">
-      <hr>
-      </div>
-  <div class="row">
-    <div class="col-lg-7">
-     <!--#################################################DIVIDER######################################################################-->
-<div id='legend' style='display:none;'>
-  <img src="{{URL::asset('img/legendary.png')}}"/>
-</div>
-<div id='map-cluster' class='map'></div>
-<div id="modalcontainer">
-  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content" >
-        <div class="modal-body">
-        <!--*********TABS**************-->
-        <ul class="nav nav-tabs" id="myTab">
-        <li class="active"><a data-target="#table" data-toggle="tab">Table</a></li>
-        <li><a data-target="#chart" data-toggle="tab">Graph(RAIN)</a></li>
-
-      </ul>
-
-      <div class="tab-content">
-        <div class="tab-pane active" id="table">
-       <!--*********TABLES**************-->
-       <div id="control_label" class="alert-info text-center"><h4>TABLE INFORMATION</h4></div>
-        <table class="table table-bordered" id="users-table">
-        <thead>
-            <tr>
-                <th>NAME</th>
-                <th>DATE/TIME</th>
-                <th>BATTERY</th>
-                <th>RAIN</th>
-            </tr>
-        </thead>
-       </table>
-        <!--*********TABLES**************-->
-        </div>
-        <div class="tab-pane" id="chart">
-         <div id="control_label" class="alert-info text-center"><h4>HISTORICAL GRAPH</h4></div>
-        <!--*********CHARTS**************-->
-        <table class="table table-bordered" id="users-table">
-        <tr>
-         <div id="chart_div"></div>
-         <div id="control_label" class="alert-info">DATE RANGE FILTER</div>
-       <div id="control_div"></div>
-        <div id='dbgchart' class="alert-info text-center"></div>
-        </tr>
-        </table>
-        <!--*********CHARTS**************-->
-
-        </div>
-         <!--*********WLCHARTS**************-->
-                <div class="tab-pane" id="wlchart">
-         <div id="control_label" class="alert-info text-center"><h4>HISTORICAL GRAPH</h4></div>
-        <!--*********WLCHARTS**************-->
-        <table class="table table-bordered" id="users-table">
-        <tr>
-         <div id="wlchart_div"></div>
-         <div id="control_label" class="alert-info">DATE RANGE FILTER</div>
-       <div id="wlcontrol_div"></div>
-        <div id='dbgwlchart' class="alert-info text-center"></div>
-        </tr>
-        </table>
-        <!--*********WLCHARTS**************-->
-
-        </div>
-      </div>
-<!--*********TABS**************-->
-      </div>
-        </div>
-      
-    </div>
-  </div>
-</div>
-</div>
-<!--#################################################DIVIDER######################################################################-->
-    <div class="col-lg-5" style="padding-left: 50px;">
-
-<!--#################################################DIVIDER######################################################################-->
- <!--*********TABLES**************-->
-       <div id="table_latest" class="alert-info text-center"><h4>LATEST DATA(RAIN)</h4></div>
-        <table class="table table-bordered" id="latest-table">
-        <thead>
-            <tr class="bg-primary">
-                <th>SITE NAME</th>
-                <th>DATE/TIME</th>
-                <th>RAIN<br>10 MINS</th>
-            </tr>
-        </thead>
-       </table>
-        <!--*********TABLES**************-->
-       <!--*********TABLES**************-->
-       <div id="table_latest" class="alert-info text-center"><h4>DAILY DATA(RAIN)</h4></div>
-        <table class="table table-bordered" id="hourly-table">
-        <thead>
-            <tr class="bg-primary">
-                <th>SITE NAME</th>
-                <th>RAIN<br>24 HRS</th>
-            </tr>
-        </thead>
-       </table>
-        <!--*********TABLES**************-->
-<!--#################################################DIVIDER######################################################################-->
-    </div><!--colmd4-->
-  </div> <!--ROW-->
-  </div>
-</div>
-
-@push('map-scripts')
 <script>
-var clckr;
-var clusterGroup = new L.layerGroup();
-L.mapbox.accessToken = 'pk.eyJ1IjoicGFnYXNhbGVnYXpwaSIsImEiOiJjaXM2M3R2eHcwY3A2Mm9sa3RicmJybXU2In0._oRLkJwo06X4W8wBXgN-ig';
-var mapCluster = L.mapbox.map('map-cluster')
-  .setView([14.668411, 120.968182],11)
-  .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v9'));
-     function loadmarkers(){
-      var ler = '012345';
-L.mapbox.featureLayer()
-  .loadURL('{{URL::asset('map')}}')
-    .on('click', function(e) {
-       //console.log(e.layer.feature.properties.description.site_id);
-      clckr = e.layer.feature.properties.description.site_id;
-      console.log(clckr);
-        mapCluster.panTo(e.layer.getLatLng());
-        calltable();
-        drawChart();
-        //drawWlChart();
-        $('#myModal').modal('show');
+     var tmp=[];
+     var tmpb=[];
 
-       
-  })
-  .on('ready', function(e) {
+    var mymap;
 
-    mapCluster.legendControl.addLegend(document.getElementById('legend').innerHTML);
+            function onLoad() {
+                 mymap = L.map('mapid').setView([14.667668, 120.967153], 14);
+
+                //var geojsonLayer = new L.GeoJSON.AJAX('{{URL::asset('wlmap')}}');       
+
+                L.tileLayer("{{URL::asset('img/maps/offline/{z}/{x}/{y}.png')}}",
+                {    maxZoom: 16  }).addTo(mymap);
+                   //  geojsonLayer.addTo(mymap);
+                    var mapControlsContainer = document.getElementsByClassName("leaflet-control")[0];
+                    var logoContainer = document.getElementById("logoContainer");
+
+                    var mapControlsContainera = document.getElementsByClassName("leaflet-control")[0];
+                    var logoContainera = document.getElementById("logoContainera");
+
+                    mapControlsContainera.appendChild(logoContainera);
+
+                        }
+        function waterleveltrigger(){
+    //##################################ICONS##################################################
+                var icnormal = L.icon({
+        iconUrl:  "{{URL::asset('img/marker/normal.png')}}",
+        iconSize: [25,25],
+        iconAnchor: [5, 20], // horizontal puis vertical
+    });
+             var icnalarm = L.icon({
     
-//
-   
-    //var blgrndrp = new L.Icon({iconUrl: "{{URL::asset('img/marker/0119.png')}}"});
-    var blgrndrp = L.Icon.extend({
-    options: {
+        iconUrl:  "{{URL::asset('img/marker/alarm.png')}}",
+        iconSize: [25,25],
+        iconAnchor: [5, 20], // horizontal puis vertical
+    
+    });
+        var icnalert = L.icon({
+  
+        iconUrl:  "{{URL::asset('img/marker/alert.png')}}",
+        iconSize: [25,25],
+        iconAnchor: [5, 20], // horizontal puis vertical
+    
+    });
+    var icncritical = L.icon({
+ 
+        iconUrl:  "{{URL::asset('img/marker/critical.png')}}",
+        iconSize: [25,25],
+        iconAnchor: [5, 20], // horizontal puis vertical
+    
+    });
+   var icndatadown = L.icon({
+
+        iconUrl:  "{{URL::asset('img/marker/datadown.png')}}",
+        iconSize: [25,25],
+        iconAnchor: [5, 20], // horizontal puis vertical
+    
+    });
+   var icndatanc = L.icon({
+  
+        iconUrl:  "{{URL::asset('img/marker/datanc.png')}}",
+        iconSize: [25,25],
+        iconAnchor: [5, 20], // horizontal puis vertical
+    
+    });
+    var icndataup = L.icon({
+  
+        iconUrl:  "{{URL::asset('img/marker/dataup.png')}}",
+        iconSize: [25,25],
+        iconAnchor: [5, 20], // horizontal puis vertical
+    
+    });
+   var icnodata = L.icon({
+
+        iconUrl:  "{{URL::asset('img/marker/nodata.png')}}",
+        iconSize: [25,25],
+        iconAnchor: [5, 20], // horizontal puis vertical
+    });
+    //##################################ICONS##################################################
+             $.get("{{URL::asset('wlmap')}}").done(function(e){
+                //console.log(JSON.parse(e));
+                var alldata = JSON.parse(e);
+                for (var a in alldata.features ){
+                    var b = alldata.features[a];
+                    console.log(b.geometry.coordinates);
+                    wliconval = "";
+                    if((b.properties.description.wlevel>=b.properties.description.wlalert)&&(b.properties.description.wlevel<b.properties.description.wlalarm)){
+                        wliconval = icnalert;
+
+                    }
+                    else if((b.properties.description.wlevel>=b.properties.description.wlalarm)&&(b.properties.description.wlevel<b.properties.description.wlcritical)){
+                        wliconval = icnalarm;
+
+                    }
+                    else if(b.properties.description.wlevel>=b.properties.description.wlcritical){
+                        wliconval = icncritical;
+
+                    }
+                    else if(b.properties.description.wlevel<b.properties.description.wlalarm){
+                        wliconval = icnormal;
+
+                    }
+                    else{
+                        wliconval = icnodata;
+                    }
+                    var latlng = [b.geometry.coordinates[1],b.geometry.coordinates[0]];
+
+                   var tmpa = L.marker(latlng,{icon:wliconval}).addTo(mymap);
+                  tmp.push(tmpa);
+                }
+            });
+            console.log(tmp);
+
+        }
+    function raintrigger(){
+  var blgrndrp = L.icon({
+
         iconUrl:  "{{URL::asset('img/marker/0119.png')}}",
         iconSize: [20,25],
         iconAnchor: [5, 20], // horizontal puis vertical
-    }
+    
     });
-        var rddrp = L.Icon.extend({
-    options: {
+        var rddrp = L.icon({
+
         iconUrl:  "{{URL::asset('img/marker/5h5h9.png')}}",
         iconSize: [20,25],
         iconAnchor: [5, 20], // horizontal puis vertical
-    }
+    
     });
-    var bldrp = L.Icon.extend({
-    options: {
+    var bldrp = L.icon({
+
         iconUrl:  "{{URL::asset('img/marker/1h1h9.png')}}",
         iconSize: [20,25],
         iconAnchor: [5, 20], // horizontal puis vertical
-    }
+    
     });
-   var vltdrp = L.Icon.extend({
-    options: {
+   var vltdrp = L.icon({
+
         iconUrl:  "{{URL::asset('img/marker/2h2h9.png')}}",
         iconSize: [20,25],
         iconAnchor: [5, 20], // horizontal puis vertical
-    }
+    
     });
-   var ylwdrp = L.Icon.extend({
-    options: {
+   var ylwdrp = L.icon({
+
         iconUrl:  "{{URL::asset('img/marker/3h3h9.png')}}",
         iconSize: [20,25],
         iconAnchor: [5, 20], // horizontal puis vertical
-    }
+    
     });
-    var orngdrp = L.Icon.extend({
-    options: {
+    var orngdrp = L.icon({
+
         iconUrl:  "{{URL::asset('img/marker/4h4h9.png')}}",
         iconSize: [20,25],
         iconAnchor: [5, 20], // horizontal puis vertical
-    }
+    
     });
-   var skbldrp = L.Icon.extend({
-    options: {
+   var skbldrp = L.icon({
+
         iconUrl:  "{{URL::asset('img/marker/2099.png')}}",
         iconSize: [20,25],
         iconAnchor: [5, 20], // horizontal puis vertical
-    }
+    
     });
-var grydrp = L.Icon.extend({
-    options: {
+var grydrp = L.icon({
+
         iconUrl:  "{{URL::asset('img/marker/norf.png')}}",
         iconSize: [20,25],
         iconAnchor: [5, 20], // horizontal puis vertical
-    }
+    
     });
 // VOLUMES
 
- var blgrndrpv = L.Icon.extend({
-    options: {
+ var blgrndrpv = L.icon({
+    
         iconUrl:  "{{URL::asset('img/marker/0119v.png')}}",
         iconSize: [20,25],
         iconAnchor: [5, 20], // horizontal puis vertical
-    }
+    
     });
-        var rddrpv = L.Icon.extend({
-    options: {
+        var rddrpv = L.icon({
+   
         iconUrl:  "{{URL::asset('img/marker/5h5h9v.png')}}",
         iconSize: [20,25],
         iconAnchor: [5, 20], // horizontal puis vertical
-    }
+    
     });
-    var bldrpv = L.Icon.extend({
-    options: {
+    var bldrpv = L.icon({
+  
         iconUrl:  "{{URL::asset('img/marker/1h1h9v.png')}}",
         iconSize: [20,25],
         iconAnchor: [5, 20], // horizontal puis vertical
-    }
+    
     });
-   var vltdrpv = L.Icon.extend({
-    options: {
+   var vltdrpv = L.icon({
+  
         iconUrl:  "{{URL::asset('img/marker/2h2h9v.png')}}",
         iconSize: [20,25],
         iconAnchor: [5, 20], // horizontal puis vertical
-    }
+    
     });
-   var ylwdrpv = L.Icon.extend({
-    options: {
+   var ylwdrpv = L.icon({
+  
         iconUrl:  "{{URL::asset('img/marker/3h3h9v.png')}}",
         iconSize: [20,25],
         iconAnchor: [5, 20], // horizontal puis vertical
-    }
+    
     });
-    var orngdrpv = L.Icon.extend({
-    options: {
+    var orngdrpv = L.icon({
+ 
         iconUrl:  "{{URL::asset('img/marker/4h4h9v.png')}}",
         iconSize: [20,25],
         iconAnchor: [5, 20], // horizontal puis vertical
-    }
+    
     });
-   var skbldrpv = L.Icon.extend({
-    options: {
+   var skbldrpv = L.icon({
+  
         iconUrl:  "{{URL::asset('img/marker/2099v.png')}}",
         iconSize: [20,25],
         iconAnchor: [5, 20], // horizontal puis vertical
-    }
+    
     });
-var grydrpv = L.Icon.extend({
-    options: {
+var grydrpv = L.icon({
+
         iconUrl:  "{{URL::asset('img/marker/norfv.png')}}",
         iconSize: [20,25],
         iconAnchor: [5, 20], // horizontal puis vertical
-    }
+    
     });
 
+             $.get("{{URL::asset('map')}}").done(function(e){
+                //console.log(JSON.parse(e));
+                var alldata = JSON.parse(e);
+                for (var c in alldata.features ){
+                    var d = alldata.features[c];
+                    console.log(d.properties.description.rainfall);
+                    var iconval = "";
+                    if(d.properties.description.dataof == "daily"){
+                             if(d.properties.description.rainfall<=0){
+                        iconval = grydrpv;
+                        }
+                        else if((d.properties.description.rainfall>=1)&&(d.properties.description.rainfall<=24)){
+                        iconval = blgrndrpv;
+                        }
+                        else if((d.properties.description.rainfall>=25)&&(d.properties.description.rainfall<=49)){
+                        iconval = skbldrpv;
+                        }
+                        else if((d.properties.description.rainfall>=50)&&(d.properties.description.rainfall<=74)){
+                        iconval = bldrpv;
+                        }
+                        else if((d.properties.description.rainfall>=75)&&(d.properties.description.rainfall<=99)){
+                        iconval = vltdrpv;
+                        }
+                        else if((d.properties.description.rainfall>=100)&&(d.properties.description.rainfall<=124)){
+                        iconval = ylwdrpv;
+                        }
+                        else if((d.properties.description.rainfall>=125)&&(d.properties.description.rainfall<=149)){
+                        iconval = orngdrpv;
+                        }
+                        else if(d.properties.description.rainfall>=150){
+                        iconval = rddrpv;
+                        }
+                    } //if daily
+                    else{
 
-    e.target.eachLayer(function(layer) {
-        clusterGroup.addLayer(layer);
-
-        var rf = parseFloat(layer.feature.properties.description.rainfall);
-        if(layer.feature.properties.description.dataof=="daily"){
-          if((rf >= 0)&&(rf <= 0.9)){
-        layer.setIcon(new grydrpv);
-
-        }
-         else if((rf >= 1)&&(rf <= 24)){
-        layer.setIcon(new blgrndrpv);
-
-        }
-        else if((rf >= 25)&&(rf <= 49)){
-        layer.setIcon(new skbldrpv);
-
-        }    
-        else if((rf >= 50)&&(rf <= 74)){
-        layer.setIcon(new bldrpv);
-
-        }       
-        else if((rf >= 75)&&(rf <= 99)){
-        layer.setIcon(new vltdrpv);
-
-        }      
-        else if((rf >= 100)&&(rf <= 124)){
-        layer.setIcon(new ylwdrpv);
-
-        } 
-        else if((rf >= 125)&&(rf <= 149)){
-        layer.setIcon(new orngdrpv);
-
-        }
-        else if(rf >= 150){
-        layer.setIcon(new rddrpv);
-
-
-
-        }
-
-      }
-        else{
-        console.log("RF: "+ rf);
-        if(rf <= 0){
-        layer.setIcon(new grydrp);
-
-        }
-         else if((rf >= 0.1)&&(rf <= 1.9)){
-        layer.setIcon(new blgrndrp);
-
-        }
-        else if((rf >= 2.0)&&(rf <= 9.9)){
-        layer.setIcon(new skbldrp);
-
-        }    
-        else if((rf >= 10.0)&&(rf <= 19.9)){
-        layer.setIcon(new bldrp);
-
-        }       
-        else if((rf >= 20.0)&&(rf <= 29.9)){
-        layer.setIcon(new vltdrp);
-
-        }      
-        else if((rf >= 30.0)&&(rf <= 39.9)){
-        layer.setIcon(new ylwdrp);
-
-        } 
-        else if((rf >= 40.0)&&(rf <= 49.9)){
-        layer.setIcon(new orngdrp);
-
-        }
-        else if(rf >= 50.0){
-        layer.setIcon(new rddrp);
-
-        }
-        layer.bindTooltip(layer.feature.properties.description.Sitename,{ direction:'left', permanent: true, opacity : 0.6, offset : L.point(10,10), className: 'myCSSClass' });
-        layer.bindPopup("<h1>"+layer.feature.properties.description.Sitename+ "</h1><h2><small> Rainfall: "+layer.feature.properties.description.rainfall+"</small></h2><h2><small> As Of: "+layer.feature.properties.description.asof+"</small></h2>");
-      }
-
-        
-  });
-  /*$.getJSON("{{URL::asset('geojson/keyml.geojson')}}", function(data) { 
-  
- // dataLayer
-  //addDataToMap(data, mapCluster); 
-  var dataLayer ="";
-  dataLayer = L.geoJson(data);
-  dataLayer.setStyle({color: "#FF5500"})
-  dataLayer.addTo(clusterGroup);
-  }); */
-//KML LAYER
-
-  mapCluster.addLayer(clusterGroup);
-
-});
-}//loadmarkers
-loadmarkers();
-drawlatestable();
-setInterval(function(){
-    clusterGroup.clearLayers();
-    console.log("refreshing data");
-    loadmarkers();
-     $('#latest-table').DataTable().destroy();
-     $('#hourly-table').DataTable().destroy();
-    drawlatestable();
-    drawhourlytable();
-  }, 60000);
-
-function calltable(){
-
-    $('#users-table').DataTable({
-        destroy: true,
-        ajax: '{{URL::asset('data')}}'+"/"+clckr,
-        columns: [
-            { data: 'name', name: 'name' },
-            { data: 'created_at', name: 'created_at' },
-            { data: 'batteryvolt', name: 'batteryvolt' , orderable: false},
-            { data: 'rvalue', name: 'rvalue' }
-        ],
-        dom: 'Bfrtip',
-        buttons: [
-             'copy', 'excel', 'pdf', 'print'
-        ]
-    });
-}
-function drawhourlytable(){
-
-    $('#hourly-table').DataTable({
-        destroy: true,
-        processing: true,
-        serverSide: true,
-        searching: false,
-        ordering: false, //remove ordering button
-        bInfo : false, //remove showing entries
-        paging: false,
-        ajax: '{{URL::asset('hourlydata')}}',
-        columns: [
-            { data: 'name', name: 'name' },
-            { data: 'rain', name: 'rain' }
-        ]
-    });
-}
-function drawlatestable(){
-    $('#latest-table').DataTable({
-         searching: false,
-         paging: false,
-        bSort : false, //disable datatable sorting so it is sorted by wltbm
-        ordering: false, //remove ordering button
-        bInfo : false, //remove showing entries
-        paging: false,
-        "ajax": "{{URL::asset('latestdata')}}",
-        "columns": [
-            { "data": 'Site', "name": 'name' },
-            { "data": 'asof', "name": 'datetime' },
-            { "data": 'rainten', "name": 'rvalue' },
-
-        ]
-    });
-}
-//google.load('visualization', '1', {packages: ['controls', 'charteditor']});
-google.charts.load('current', {'packages':['corechart', 'controls']});
-//google.setOnLoadCallback(drawChart);
-
-function drawChart() {
-  var jsonData = $.ajax({
-          url:  '{{URL::asset('laracharts')}}'+"/"+clckr,
-          dataType: "json",
-          async: false
-          }).responseText;
-    var data = new google.visualization.DataTable(jsonData);   
-    var dash = new google.visualization.Dashboard(document.getElementById('dashboard'));
-    var control = new google.visualization.ControlWrapper({
-        controlType: 'ChartRangeFilter',
-        containerId: 'control_div',
-        options: {
-            filterColumnIndex: 0,
-            ui: {
-                chartOptions: {
-                  colors: ['#0b7701'],
-                    height: 50,
-                    width: 550
-                }
-            },
-          
-        }
-      
-        
-    });
-    var chart = new google.visualization.ChartWrapper({
-        chartType: 'AreaChart',
-        containerId: 'chart_div',
-           options: {
-            filterColumnIndex: 0,
-            legend: { position: 'bottom' },
-            ui: {
-                chartOptions: {
-                      height: 50,
-                    width: 550,
-                    chartArea: {
-                        width: '80%'
+                    if(d.properties.description.rainfall<=0){
+                        iconval = grydrp;
                     }
+                    else if(d.properties.description.rainfall==1){
+                        iconval = blgrndrp;
+                    }
+                    else if((d.properties.description.rainfall>=2)&&(d.properties.description.rainfall<=9)){
+                        iconval = skbldrp;
+                    }
+                    else if((d.properties.description.rainfall>=10)&&(d.properties.description.rainfall<=19)){
+                        iconval = bldrp;
+                    }
+                    else if((d.properties.description.rainfall>=20)&&(d.properties.description.rainfall<=29)){
+                        iconval = vltdrp;
+                    }
+                    else if((d.properties.description.rainfall>=30)&&(d.properties.description.rainfall<=39)){
+                        iconval = ylwdrp;
+                    }
+                    else if((d.properties.description.rainfall>=40)&&(d.properties.description.rainfall<=49)){
+                        iconval = orngdrp;
+                    }
+                    else if(d.properties.description.rainfall>=50){
+                        iconval = rddrp;
+                    }
+                        }//else ten minitues
+                    var latlng = [d.geometry.coordinates[1],d.geometry.coordinates[0]];
+                   var tmpc = L.marker(latlng,{icon:iconval}).addTo(mymap);
+                  tmpb.push(tmpc);
                 }
-            },
-            colors: ['#0b7701'] 
+            });
+            console.log(tmp);
+
+    }//raintrigger
+        function triggera (){
+                 for (var C in tmp ){
+                        mymap.removeLayer(tmp[C]);
+                }
+            }
+        function triggerb (){
+                 for (var B in tmpb ){
+                        mymap.removeLayer(tmpb[B]);
+                }
+
         }
-    }); 
-    dash.bind([control], [chart]);
-    dash.draw(data);
-    google.visualization.events.addListener(control, 'statechange', function () {
-        var v = control.getState();
-        document.getElementById('dbgchart').innerHTML = '<b>START: </b>'+v.range.start+ '<br /><b>END: </b> ' +v.range.end;
-        return 0;
-    });
-}
-/*function drawWlChart() {
-  var jsonData = $.ajax({
-          url:  '{{URL::asset('wlaracharts')}}'+"/"+clckr,
-          dataType: "json",
-          async: false
-          }).responseText;
-    var data = new google.visualization.DataTable(jsonData);   
-    var dash = new google.visualization.Dashboard(document.getElementById('dashboard'));
-    var control = new google.visualization.ControlWrapper({
-        controlType: 'ChartRangeFilter',
-        containerId: 'wlcontrol_div',
-        options: {
-            filterColumnIndex: 0,
-            ui: {
-                chartOptions: {
-                   colors: ['#42b6f4'],
-                    height: 50,
-                    width: 550
-                }
-            },
+
+        </script>   
+    </head>
+
+    <body onload="onLoad();"> 
+        <div id="mapid" style="height: 800px;"></div>
+        <div class="btn-group">
          
-        },
- 
-        
-    });
-    var chart = new google.visualization.ChartWrapper({
-        chartType: 'AreaChart',
-        containerId: 'wlchart_div',
-           options: {
-            filterColumnIndex: 0,
-            legend: { position: 'bottom' },
-            ui: {
-                chartOptions: {
-                      height: 50,
-                    width: 550,
-                    chartArea: {
-                        width: '80%'
-                    }
-                }
-            },
-            colors: ['#42b6f4']
-        }
-    }); 
-    dash.bind([control], [chart]);
-    dash.draw(data);
-    google.visualization.events.addListener(control, 'statechange', function () {
-        var v = control.getState();
-        document.getElementById('dbgwlchart').innerHTML = '<b>START: </b>'+v.range.start+ '<br /><b>END: </b> ' +v.range.end;
-        return 0;
-    });
-}*/
-</script>
-@endpush
+        <button onclick="waterleveltrigger()" class="btn btn-primary">Water Level</button>
+        <button onclick="triggera()" class="btn btn-warning">remove water level</button>
+            <div class="btn-group">
+        <button onclick="raintrigger()" class="btn btn-primary">Rain</button>
+        <button onclick="triggerb()" class="btn btn-warning">remove rain</button>
+            </div>
+        </div>
+        <div id="logoContainer">
+            Legend
+        </div>
+        <div id="logoContainera">
+            Legend
+        </div>
+    </body>
 
 @stop

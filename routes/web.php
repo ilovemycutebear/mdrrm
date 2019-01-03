@@ -48,8 +48,9 @@ Route::get('latestdata', 'LatestController@getlatestdata');
 Route::get('hourlydata', 'LatestController@gethourlydata');
 Route::get('wllatestdata', 'LatestController@wlgetlatestdata');
 Route::get('wlhourlydata', 'LatestController@wlgethourlydata');
-
-
+Route::get('dttbldetails', 'historicalController@wlgetsitedata');
+Route::get('dttbldetailsrn', 'historicalController@rngetsitedata');
+Route::get('hstry', 'historicalController@hstry');
 
 Route::get('tabs/{tabid}', 'TabController@getLaraTab');
 //Route::get('/datatables/orders', array('auth', 'uses' => 'ProfileController@anyOrders'))->name('datatables.dataOrders');

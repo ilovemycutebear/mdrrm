@@ -20,7 +20,7 @@
       @endforeach  
     @foreach($latestcrsl as $siteinfos)
         <div class="col-md-4 col-md-2 text-center"><h2>{{ $siteinfos->rainten }}</h2></div>
-        <div class="col-md-4 col-md-2 text-center"><h2>{{ $siteinfos->water }}</h2></div>
+        <div class="col-md-4 col-md-2 text-center"><h2>{{ $siteinfos->wlevel }}</h2></div>
       @endforeach
       @foreach($latestcrsl as $siteinfos)
         <div class="col-xs-6 col-md-4 text-center"><h3>DATA AS OF: {{$siteinfos->asof}}</h3></div>

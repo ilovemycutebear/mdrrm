@@ -28,7 +28,7 @@
         body{
     height: 100%;
     padding-top: 40px;
-    background-image: url("{{URL::asset('img/background.jpg')}}");
+    background-image: url("{{URL::asset('img/background.png')}}");
     background-repeat: no-repeat;
     background-size: cover;
 }  
@@ -45,10 +45,31 @@ h3 {
   background:rgba(89, 89, 89, 0.33);
   color: white;
 }
-.map { position:absolute; top:0; bottom:0; width:100%; height: 700px; }
+.map { position:absolute; top:5px; bottom:0; width:100%; height: 750px; }
 .color_table{
     color: white !important;
     background-color: #eeeeee !important;
+}
+/* legend css*/
+#logoContainer {
+  position: absolute;
+  z-index: 100;
+  top: 550px;
+  left: 1500px;
+  content: url("{{URL::asset('img/legendary.png')}}");
+  border: 1px solid black;
+  width: 200px;
+  height: 300px;
+}
+#logoContainera {
+  position: absolute;
+  z-index: 90;
+  top: 470px;
+  left: 1690px;
+  content: url("{{URL::asset('img/wlegends.png')}}");
+  border: 1px solid black;
+  width: 200px;
+  height: 300px;
 }
 /*navbar customiziation*/
 /* Red */
@@ -68,6 +89,9 @@ h3 {
  $colDefault     : #ecf0f1;
  $colHover       : #ffe6d1; /*/
 /* --- Style --- */
+html {
+  padding-top: 30px;
+}
 .navbar-default {
   background-color: #f70291;
   border-color: #f70291;
@@ -159,10 +183,10 @@ h3 {
                 <a href="{{ url('/') }}">HOME</a>
             </li>
             <li class="{{ Request::is('rainmapview') ? 'active' : '' }}">
-                <a href="{{ url('rainmapview') }}">RAIN</a>
+                <a href="{{ url('rainmapview') }}">MAP</a>
             </li>
-            <li class="{{ Request::is('wlevelmapview') ? 'active' : '' }}">
-                <a href="{{ url('wlevelmapview') }}">WATER LEVEL</a>
+            <li class="{{ Request::is('hstry') ? 'active' : '' }}">
+                <a href="{{ url('hstry') }}">TABLE</a>
             </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
