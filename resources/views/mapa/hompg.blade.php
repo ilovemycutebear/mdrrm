@@ -109,7 +109,7 @@
                     }
                     var latlng = [b.geometry.coordinates[1],b.geometry.coordinates[0]];
 
-                   var tmpa = L.marker(latlng,{icon:wliconval}).addTo(mymap);
+                   var tmpa = L.marker(latlng,{icon:wliconval}).bindTooltip("STENAME: "+ b.properties.description.Sitename+ "<br> WATER LEVEL: "+ b.properties.description.wlevel+"<br> AS OF: "+b.properties.description.asof).addTo(mymap);
                   tmp.push(tmpa);
                 }
             });
@@ -293,7 +293,7 @@ var grydrpv = L.icon({
                     }
                         }//else ten minitues
                     var latlng = [d.geometry.coordinates[1],d.geometry.coordinates[0]];
-                   var tmpc = L.marker(latlng,{icon:iconval}).addTo(mymap);
+                   var tmpc = L.marker(latlng,{icon:iconval}).bindTooltip("STENAME: "+ d.properties.description.Sitename+ "<br> RAIN: "+ d.properties.description.rainfall+"<br> AS OF : "+d.properties.description.asof).addTo(mymap);
                   tmpb.push(tmpc);
                 }
             });

@@ -25,7 +25,7 @@
         <!--*********TABS**************-->
         <ul class="nav nav-tabs" id="myTab">
         <li class="active"><a data-target="#table" data-toggle="tab">Table</a></li>
-        <li><a data-target="#wlchart" data-toggle="tab">Graph(WATER LEVEL)</a></li>
+        <li><a data-target="#wlchart" data-toggle="tab">Graph</a></li>
 
       </ul>
 

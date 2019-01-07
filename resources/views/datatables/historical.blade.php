@@ -27,7 +27,7 @@
                 <th>NAME</th>
                 <th>DATE/TIME</th>
                 <th>BATTERY</th>
-                <th>WATER LEVEL</th>
+                <th>VALUE</th>
             </tr>
         </thead>
        </table>
