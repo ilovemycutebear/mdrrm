@@ -69,7 +69,7 @@ class MapsController extends Controller
         return $lb;*/
         $date = new DateTime();
         //$date->modify('-24 hours');
-        $formatted_date = Carbon::now()->subDays(26);
+        $formatted_date = Carbon::now()->subDays(1);
         $visitCount = DB::table('logs')->join('site', 'site.id', '=', 'logs.site_id')->select(DB::raw("SUM(rvalue) as rain"),'logs.site_id','logs.created_at','site.name','site.sensortype','site.sitelong','site.sitelat')->where('logs.created_at', '>',$formatted_date)
         ->where(function ($query) {
         $query->where('site.sensortype','=',1)
